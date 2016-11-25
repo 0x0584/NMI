@@ -25,14 +25,20 @@ namespace cnx
         SqlDataAdapter daprod;
 
         string req;
-        bool flag; // (true online) (false offline)
+        /// <summary>
+        /// L'etat du connection:
+        /// 
+        ///    + (true online)
+        ///    + (false offline)
+        /// </summary>
+        bool connted;
 
         private void Form1_Load(object sender, EventArgs e)
         {
             ronline.Checked = true;
             ronline.Enabled = false;
             tb2.Text = tb1.Text = "";
-            flag = true;
+            connted = true;
             //
 
             cnx = new SqlConnection("data source=.\\; initial catalog=Northwind ; integrated security=yes");
@@ -40,20 +46,21 @@ namespace cnx
 
         private void roffline_CheckedChanged(object sender, EventArgs e)
         {
-            flag = false; // online
+            connted = false; // online
             roffline.Enabled = false;
             ronline.Enabled = true;
         }
 
         private void ronline_CheckedChanged(object sender, EventArgs e)
         {
-            flag = true; // offline
+            connted = true; // offline
             roffline.Enabled = true;
             ronline.Enabled = false;
         }
+
         private void btncharger_Click(object sender, EventArgs e)
         {
-            if (flag)
+            if (connted)
             { // online
                 try
                 {
@@ -79,7 +86,7 @@ namespace cnx
 
         private void btnajouter_Click(object sender, EventArgs e)
         {
-            if (flag)
+            if (connted)
             {
                 if (tb1.Text != "" && tb2.Text != "")
                 {
@@ -116,20 +123,19 @@ namespace cnx
 
         private void btnrechercher_Click(object sender, EventArgs e)
         {
-            if (flag)
+            if (connted) // online
             {
-                // online
                 if (tbrechercher.Text != null)
                 {
                     try
                     {
                         cnx.Open();
-                        req = "SELECT * FROM Categories WHERE CategoryID=" + tbrechercher.Text + "";
+                        req = "SELECT * FROM Products WHERE ProductID =" + tbrechercher.Text + "";
                         cmd = new SqlCommand(req, cnx);
 
                         rd = cmd.ExecuteReader();
                         rd.Read();
-                        tb1.Text = rd["CategoryName"].ToString();
+                        tb1.Text = rd["ProductName"].ToString();
                         tb2.Text = rd["Description"].ToString();
                     }
                     catch { MessageBox.Show("Test"); }
@@ -140,15 +146,15 @@ namespace cnx
                     }
                 }
             }
-            else
+            else // offline
             {
-                // offline
+                
             }
         }
 
         private void btnmod_Click(object sender, EventArgs e)
         {
-            if (flag) // online (flag true)
+            if (connted) // online
             { 
                 if (tb1.Text != "" && tb2.Text != "")
                 {
@@ -170,7 +176,7 @@ namespace cnx
                     MessageBox.Show("Insert values first!");
                 }
             }
-            else // offline (flag false)
+            else // offline
             {
                 
             }
@@ -178,7 +184,7 @@ namespace cnx
 
         private void btnsupp_Click(object sender, EventArgs e)
         {
-            if (flag)
+            if (connted)
             {
                 // online
                 try
@@ -199,7 +205,7 @@ namespace cnx
 
         private void btnvider_Click(object sender, EventArgs e)
         {
-            if (flag)
+            if (connted)
             {
                 // online
                 tb1.Text = "";
