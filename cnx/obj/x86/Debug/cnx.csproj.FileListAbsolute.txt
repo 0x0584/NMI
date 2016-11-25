@@ -16,3 +16,4 @@ C:\Users\mr\Documents\Visual Studio 2010\Projects\cnx\cnx\obj\x86\Debug\cnx.Prop
 C:\Users\mr\Documents\Visual Studio 2010\Projects\cnx\cnx\obj\x86\Debug\cnx.csproj.GenerateResource.Cache
 C:\Users\mr\Documents\Visual Studio 2010\Projects\cnx\cnx\bin\Debug\Northwind.sdf
 C:\Users\mr\Documents\Visual Studio 2010\Projects\cnx\cnx\bin\Debug\cnx.exe.config
+C:\Users\mr\Documents\Visual Studio 2010\Projects\cnx\cnx\obj\x86\Debug\cnx.Form2.resources

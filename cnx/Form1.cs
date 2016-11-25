@@ -16,15 +16,9 @@ namespace cnx
         {
             InitializeComponent();
         }
+        Form2 config = new Form2();
 
-        SqlConnection cnx;
-        SqlCommand cmd;
-        SqlDataReader rd;
-
-        DataSet ds;
-        SqlDataAdapter daprod;
-
-        string req;
+        SqlConnection conn;
         /// <summary>
         /// L'etat du connection:
         /// 
@@ -33,15 +27,24 @@ namespace cnx
         /// </summary>
         bool connted;
 
+        SqlCommand cmd;
+        SqlDataReader rd;
+
+        DataSet ds;
+        SqlDataAdapter daprod;
+
+        string req;
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            // init
             ronline.Checked = true;
             ronline.Enabled = false;
             tb2.Text = tb1.Text = "";
             connted = true;
             //
 
-            cnx = new SqlConnection("data source=.\\; initial catalog=Northwind ; integrated security=yes");
+            conn = new SqlConnection("data source = .\\; initial catalog = Northwind ; integrated security = yes");
         }
 
         private void roffline_CheckedChanged(object sender, EventArgs e)
@@ -64,17 +67,17 @@ namespace cnx
             { // online
                 try
                 {
-                    cnx.Open();
+                    conn.Open();
 
                     req = "SELECT * FROM Products";
-                    cmd = new SqlCommand(req, cnx);
+                    cmd = new SqlCommand(req, conn);
                     rd = cmd.ExecuteReader();
 
                     while (rd.Read()) lbox.Items.Add(rd["ProductName"]);
                     //
                 }
                 catch { MessageBox.Show("Test"); }
-                finally { cnx.Close(); }
+                finally { conn.Close(); }
 
                 MessageBox.Show("done!");
             }
@@ -97,15 +100,15 @@ namespace cnx
                            tb1.Text + "','" +
                            tb2.Text + "')";
 
-                        cmd = new SqlCommand(req, cnx);
-                        cnx.Open();
+                        cmd = new SqlCommand(req, conn);
+                        conn.Open();
                         cmd.ExecuteNonQuery();
 
                     }
                     catch { MessageBox.Show("Test"); }
                     finally
                     {
-                        cnx.Close();
+                        conn.Close();
                         tb1.Text = "";
                         tb2.Text = "";
                     }
@@ -129,9 +132,9 @@ namespace cnx
                 {
                     try
                     {
-                        cnx.Open();
+                        conn.Open();
                         req = "SELECT * FROM Products WHERE ProductID =" + tbrechercher.Text + "";
-                        cmd = new SqlCommand(req, cnx);
+                        cmd = new SqlCommand(req, conn);
 
                         rd = cmd.ExecuteReader();
                         rd.Read();
@@ -142,34 +145,34 @@ namespace cnx
                     finally
                     {
                         rd.Close();
-                        cnx.Close();
+                        conn.Close();
                     }
                 }
             }
             else // offline
             {
-                
+
             }
         }
 
         private void btnmod_Click(object sender, EventArgs e)
         {
             if (connted) // online
-            { 
+            {
                 if (tb1.Text != "" && tb2.Text != "")
                 {
                     try
                     {
-                        cnx.Open();
+                        conn.Open();
                         req = "UPDATE Categories SET CategoryName = '" + tb1.Text + "'," +
                             " Description = '" + tb2.Text + "'" +
                             " WHERE CategoryID =" + tbrechercher.Text + "";
 
-                        cmd = new SqlCommand(req, cnx);
+                        cmd = new SqlCommand(req, conn);
                         cmd.ExecuteNonQuery();
                     }
                     catch { MessageBox.Show("Test"); }
-                    finally { cnx.Close(); }
+                    finally { conn.Close(); }
                 }
                 else
                 {
@@ -178,7 +181,7 @@ namespace cnx
             }
             else // offline
             {
-                
+
             }
         }
 
@@ -189,13 +192,13 @@ namespace cnx
                 // online
                 try
                 {
-                    cnx.Open();
+                    conn.Open();
                     req = "DELETE Categories WHERE CategoryID=" + tbrechercher.Text + "";
-                    cmd = new SqlCommand(req, cnx);
+                    cmd = new SqlCommand(req, conn);
                     cmd.ExecuteNonQuery();
                 }
                 catch { MessageBox.Show("Test"); }
-                finally { cnx.Close(); }
+                finally { conn.Close(); }
             }
             else
             {
@@ -216,6 +219,25 @@ namespace cnx
             {
                 // offline
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            config.Show();
+            
+            // BUG: How to get changes gtom form?
+            // the while-trick is not working as expected!
+            // what shall I do now! I miss C...
+            // while (config.Flag) ;
+
+            //    conn.ConnectionString = string.Format("data source = {0}; initial catalog = {1}; integrated security = {2}", 
+            //        config.DataSource,
+            //        config.InitialCatalog,
+            //        config.IntegratedSecurity);
+            //
+
+            MessageBox.Show(config.DataSource + " " + config.InitialCatalog + " " + config.IntegratedSecurity);
         }
 
     }
