@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Northwind Managment Interface", "Northwind Managment Interface", "{B5EB2C77-DB1A-49D8-86DE-2868FE714171}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind Managment Interface", "Northwind Managment Interface\Northwind Managment Interface.csproj", "{7F32958A-69C4-4375-A078-1D9671687B86}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F32958A-69C4-4375-A078-1D9671687B86}.Debug|x86.ActiveCfg = Debug|x86
+		{7F32958A-69C4-4375-A078-1D9671687B86}.Debug|x86.Build.0 = Debug|x86
+		{7F32958A-69C4-4375-A078-1D9671687B86}.Release|x86.ActiveCfg = Release|x86
+		{7F32958A-69C4-4375-A078-1D9671687B86}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F32958A-69C4-4375-A078-1D9671687B86} = {B5EB2C77-DB1A-49D8-86DE-2868FE714171}
+	EndGlobalSection
+EndGlobal
