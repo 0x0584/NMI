@@ -1,0 +1,11 @@
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Release\Northwind.exe.config
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Release\Northwind.sdf
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Release\Northwind.exe
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Release\Northwind.pdb
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\Northwind Managment Interface.csprojResolveAssemblyReference.cache
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\cnx.Form1.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\cnx.Form2.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\Northwind.Properties.Resources.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\Northwind Managment Interface.csproj.GenerateResource.Cache
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\Northwind.exe
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Release\Northwind.pdb
