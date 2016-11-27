@@ -45,24 +45,10 @@ namespace cnx
             //
 
             conn = new SqlConnection("data source = (local); initial catalog = Northwind ; integrated security = yes");
+            load();
         }
 
-        private void roffline_CheckedChanged(object sender, EventArgs e)
-        {
-            connected = false; // online
-            roffline.Enabled = false;
-            ronline.Enabled = true;
-        }
-
-        private void ronline_CheckedChanged(object sender, EventArgs e)
-        {
-            connected = true; // offline
-            roffline.Enabled = true;
-            ronline.Enabled = false;
-        }
-
-
-        private void btncharger_Click(object sender, EventArgs e)
+        private void load() 
         {
             if (connected) // online
             {
@@ -82,12 +68,33 @@ namespace cnx
                 catch { MessageBox.Show("Test"); }
                 finally { conn.Close(); }
 
-                MessageBox.Show("done!");
+               // MessageBox.Show("done!");
             }
             else
             { // offline
 
             }
+        }
+
+        private void ClearTextboxes()
+        {
+            tbname.Text = "";
+            tbdesc.Text = "";
+            tbid.Text = "";
+        }
+
+        private void roffline_CheckedChanged(object sender, EventArgs e)
+        {
+            connected = false; // online
+            roffline.Enabled = false;
+            ronline.Enabled = true;
+        }
+
+        private void ronline_CheckedChanged(object sender, EventArgs e)
+        {
+            connected = true; // offline
+            roffline.Enabled = true;
+            ronline.Enabled = false;
         }
 
         private void btnajouter_Click(object sender, EventArgs e)
@@ -106,15 +113,11 @@ namespace cnx
                         conn.Open();
 
                         cmd.ExecuteNonQuery();
-
+                        load();
+                        ClearTextboxes();
                     }
                     catch { MessageBox.Show("Test"); }
-                    finally
-                    {
-                        conn.Close();
-                        tbname.Text = "";
-                        tbdesc.Text = "";
-                    }
+                    finally { conn.Close(); }
                 }
                 else
                 {
@@ -198,6 +201,9 @@ namespace cnx
 
                         // cmd.Parameters = param;
                         cmd.ExecuteNonQuery();
+
+                        load();
+                        ClearTextboxes();
                     }
                     catch { MessageBox.Show("Test"); }
                     finally { conn.Close(); }
@@ -223,7 +229,10 @@ namespace cnx
                     conn.Open();
                     req = "DELETE Categories WHERE CategoryID = " + tbid.Text;
                     cmd = new SqlCommand(req, conn);
+                    
                     cmd.ExecuteNonQuery();
+                    load();
+                    ClearTextboxes();
                 }
                 catch { MessageBox.Show("Test"); }
                 finally { conn.Close(); }
@@ -237,22 +246,15 @@ namespace cnx
         private void btnvider_Click(object sender, EventArgs e)
         {
             // this is a temporary button
-            //
-            // dedicated to all the feelings i have to clang:
-            // what i really love about programming is that it gives you the ability to control
-            // a rang of low-level of detaills. This is, for me at least, the ultimate power!
+            // UPDATE: it looks like it's effecient for UX
 
-            if (connected)
-            {
-                // online
-                tbname.Text = "";
-                tbdesc.Text = "";
-                tbid.Text = "";
-            }
-            else
-            {
-                // offline
-            }
+            /* dedicated to all the feelings i have to programming:
+             * 
+             * what i really love about programming is that it gives you the ability to control
+             * a rang of low-level of detaills. This is, for me at least, the ultimate power!
+             */
+
+            ClearTextboxes();
         }
 
         private void button1_Click(object sender, EventArgs e)

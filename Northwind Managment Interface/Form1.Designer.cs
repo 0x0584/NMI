@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btncharger = new System.Windows.Forms.Button();
             this.lbox = new System.Windows.Forms.ListBox();
             this.btnajouter = new System.Windows.Forms.Button();
             this.tbname = new System.Windows.Forms.TextBox();
@@ -47,16 +46,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // btncharger
-            // 
-            this.btncharger.Location = new System.Drawing.Point(436, 128);
-            this.btncharger.Name = "btncharger";
-            this.btncharger.Size = new System.Drawing.Size(75, 23);
-            this.btncharger.TabIndex = 0;
-            this.btncharger.Text = "charger";
-            this.btncharger.UseVisualStyleBackColor = true;
-            this.btncharger.Click += new System.EventHandler(this.btncharger_Click);
             // 
             // lbox
             // 
@@ -238,7 +227,6 @@
             this.Controls.Add(this.tbname);
             this.Controls.Add(this.btnajouter);
             this.Controls.Add(this.lbox);
-            this.Controls.Add(this.btncharger);
             this.MaximumSize = new System.Drawing.Size(531, 290);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -251,7 +239,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btncharger;
         private System.Windows.Forms.ListBox lbox;
         private System.Windows.Forms.Button btnajouter;
         private System.Windows.Forms.TextBox tbname;
