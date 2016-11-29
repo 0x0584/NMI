@@ -76,6 +76,12 @@ namespace Northwind
         {
             query = "SELECT * FROM Categories";
 
+            if (firstrun)
+            {
+                adapter = new SqlDataAdapter(query, connection);
+                adapter.Fill(categoriesDS, "tCategories");
+            }
+
             if (isonline)
             {
                 try
@@ -110,9 +116,6 @@ namespace Northwind
                     // I DO NOT KNOW!
                     // UPDATE: NOW I KNOW...
 
-                    adapter = new SqlDataAdapter(query, connection);
-                    adapter.Fill(categoriesDS, "tCategories");
-
                     ClearDataGridView(mainDataGrid);
 
                     mainDataGrid.DataSource = categoriesDS.Tables["tCategories"];
@@ -122,6 +125,7 @@ namespace Northwind
 
             }
         }
+
 
         private void SetupDataGridViewColumns(DataGridView source)
         {
