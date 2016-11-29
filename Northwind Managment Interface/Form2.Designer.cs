@@ -1,4 +1,4 @@
-﻿namespace cnx
+﻿namespace Northwind
 {
     partial class Form2
     {
