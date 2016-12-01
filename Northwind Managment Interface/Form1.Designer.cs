@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listbox = new System.Windows.Forms.ListBox();
             this.btnadd = new System.Windows.Forms.Button();
             this.tbname = new System.Windows.Forms.TextBox();
@@ -46,8 +47,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.mainDataGrid = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
+            this.northwindDataSet = new Northwind.NorthwindDataSet();
+            this.northwindDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // listbox
@@ -121,7 +125,7 @@
             // 
             // btnclear
             // 
-            this.btnclear.Location = new System.Drawing.Point(528, 165);
+            this.btnclear.Location = new System.Drawing.Point(528, 117);
             this.btnclear.Name = "btnclear";
             this.btnclear.Size = new System.Drawing.Size(75, 23);
             this.btnclear.TabIndex = 9;
@@ -132,7 +136,7 @@
             // roffline
             // 
             this.roffline.AutoSize = true;
-            this.roffline.Location = new System.Drawing.Point(619, 194);
+            this.roffline.Location = new System.Drawing.Point(601, 181);
             this.roffline.Name = "roffline";
             this.roffline.Size = new System.Drawing.Size(55, 17);
             this.roffline.TabIndex = 10;
@@ -144,7 +148,7 @@
             // ronline
             // 
             this.ronline.AutoSize = true;
-            this.ronline.Location = new System.Drawing.Point(619, 171);
+            this.ronline.Location = new System.Drawing.Point(601, 158);
             this.ronline.Name = "ronline";
             this.ronline.Size = new System.Drawing.Size(55, 17);
             this.ronline.TabIndex = 10;
@@ -155,7 +159,7 @@
             // 
             // btnconnsetings
             // 
-            this.btnconnsetings.Location = new System.Drawing.Point(415, 161);
+            this.btnconnsetings.Location = new System.Drawing.Point(426, 148);
             this.btnconnsetings.Name = "btnconnsetings";
             this.btnconnsetings.Size = new System.Drawing.Size(91, 36);
             this.btnconnsetings.TabIndex = 11;
@@ -166,10 +170,11 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(457, 113);
+            this.comboBox1.Location = new System.Drawing.Point(426, 201);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(146, 21);
             this.comboBox1.TabIndex = 12;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -201,7 +206,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(407, 116);
+            this.label4.Location = new System.Drawing.Point(394, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 13;
@@ -210,20 +215,20 @@
             // mainDataGrid
             // 
             this.mainDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.mainDataGrid.Location = new System.Drawing.Point(12, 235);
+            this.mainDataGrid.Location = new System.Drawing.Point(12, 240);
             this.mainDataGrid.Name = "mainDataGrid";
-            this.mainDataGrid.Size = new System.Drawing.Size(672, 257);
+            this.mainDataGrid.Size = new System.Drawing.Size(672, 252);
             this.mainDataGrid.TabIndex = 14;
             // 
-            // button2
+            // northwindDataSet
             // 
-            this.button2.Location = new System.Drawing.Point(468, 204);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.northwindDataSet.DataSetName = "NorthwindDataSet";
+            this.northwindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // northwindDataSetBindingSource
+            // 
+            this.northwindDataSetBindingSource.DataSource = this.northwindDataSet;
+            this.northwindDataSetBindingSource.Position = 0;
             // 
             // Form1
             // 
@@ -231,7 +236,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(696, 504);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -255,6 +259,8 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,7 +286,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView mainDataGrid;
-        private System.Windows.Forms.Button button2;
+        private NorthwindDataSet northwindDataSet;
+        private System.Windows.Forms.BindingSource northwindDataSetBindingSource;
     }
 }
 

@@ -18,186 +18,463 @@ namespace Northwind
         }
 
         Form2 config = new Form2();
-
         SqlConnection connection;
+        SqlCommand command;
+        SqlDataReader reader;
+        SqlDataAdapter adapter;
         string connstring = "data source = (local); initial catalog = Northwind ; integrated security = yes";
+        string query;
 
-        bool isonline; // indicate the connection state
-
-        //enum connectionstate { online = 0, offline }
-        //connectionstate g = connectionstate.online;
+        DataSet Northwind;
 
         /* when the program starts for the first time, `firstrun` is initialized as true.
          * this routine is used to avoid missing with the initial setup (which is done by 
-         * calling `Form_Load()`)
+         * calling `Form_Load()`). 
          */
         bool firstrun = true;
 
-        SqlCommand command;
-        SqlDataReader reader;
+        // `isonline`, is a bool which indicates the connection state.
+        bool isonline;
 
-        DataSet categoriesDS;
-        //DataTable dt;
-        //DataColumn dc;
+        /* this routine is used to avoid the creation of multiple versions of table 
+         * in `Northwind`. 
+         */
+        bool[] iscreated = new bool[10];
 
-        SqlDataAdapter adapter;
 
-        string query;
+        string currenttable;
 
         private void Form1_Load(object sender, EventArgs e)
         {
             connection = new SqlConnection(connstring);
-            categoriesDS = new DataSet("Northwind");
+            Northwind = new DataSet("Northwind");
 
             // init
-            // ronline.Checked = true;
-            // roffline.Checked = true;
-            // ronline.Enabled = false;
+            connection.Open();
             isonline = true;
+            ronline.Checked = true;
+            ronline.Enabled = false;
 
             // tini
 
             tbdesc.Text = tbname.Text = "";
             //
 
+            SetupComboBox(comboBox1);
+
+            for (int i = 0; i < 10; i++) iscreated[i] = false;
+
             SetupDataGridViewColumns(mainDataGrid);
 
-            // dc = new DataColumn("CategoryName");
+            RefreshView(currenttable);
 
-            RefreshView();
+            firstrun = false;  // end of the `firstrun`.
 
-            // end of load
-            firstrun = false;
         }
 
-        /*
-         */
-        private void RefreshView()
+        private int getindex(string table)
         {
-            query = "SELECT * FROM Categories";
+            if (table == "Categories") return 0;
+            else if (table == "Customers") return 1;
+            else if (table == "Employees") return 2;
+            else if (table == "[Order Details]") return 3;
+            else if (table == "Orders") return 4;
+            else if (table == "Products") return 5;
+            else if (table == "Region") return 6;
+            else if (table == "Shippers") return 7;
+            else if (table == "Suppliers") return 8;
+            else if (table == "Territories") return 9;
+            else return -1;
+        }
 
-            if (firstrun)
-            {
-                adapter = new SqlDataAdapter(query, connection);
-                adapter.Fill(categoriesDS, "tCategories");
-            }
+        private void RefreshView(string table)
+        {
+            int index = getindex(table);
 
-            if (isonline)
+            if (index != (-1))
             {
-                try
+                query = "SELECT * FROM " + table;
+
+                if (firstrun || !(iscreated[index]))
                 {
-                    connection.Open();
+                    iscreated[index] = true;
+                    adapter = new SqlDataAdapter(query, connection);
+                    adapter.Fill(Northwind, "t" + table);
+                }
 
-                    command = new SqlCommand(query, connection);
-                    reader = command.ExecuteReader();
-
-                    // TODO: a datagridview should be here!
-                    // done!
-
-                    ClearDataGridView(mainDataGrid);
-
-                    while (reader.Read())
+                if (isonline)
+                {
+                    try
                     {
-                        mainDataGrid.Rows.Add(reader["CategoryID"], reader["CategoryName"],
-                        reader["Description"], reader["Picture"],
-                        reader["LastEditDate"], reader["CreationDate"]);
+                        command = new SqlCommand(query, connection);
+                        reader = command.ExecuteReader();
+
+                        // TODO: a datagridview should be here!
+                        // done!
+
+                        ClearDataGridView(mainDataGrid);
+
+                        SetupDataGridViewRows(mainDataGrid, reader);
+                        
                     }
-
+                    catch { MessageBox.Show("error while load online"); }
+                    finally { reader.Close(); }
                 }
-                catch { MessageBox.Show("error while load online"); }
-                finally { connection.Close(); }
-
-            }
-            else
-            {
-
-                try
+                else
                 {
-                    // I DO NOT KNOW!
-                    // UPDATE: NOW I KNOW...
+                    try
+                    {
+                        // I DO NOT KNOW!
+                        // UPDATE: NOW I KNOW...
 
-                    ClearDataGridView(mainDataGrid);
+                        ClearDataGridView(mainDataGrid);
 
-                    mainDataGrid.DataSource = categoriesDS.Tables["tCategories"];
-                    //mainDataGrid.DataSource = null;
+                        mainDataGrid.DataSource = Northwind.Tables["tCategories"];
+                    }
+                    catch { MessageBox.Show("error while load offline"); }
                 }
-                catch { MessageBox.Show("error while load offline"); }
-
             }
         }
 
+        #region Setup and manipulate DataGridView, TextBoxes and ComboBoxes
+
+        private void SetupComboBox(ComboBox source)
+        {
+            source.Items.Add("Categories");
+            source.Items.Add("Customers");
+            source.Items.Add("Employees");
+            source.Items.Add("Order Details");
+            source.Items.Add("Orders");
+            source.Items.Add("Products");
+            source.Items.Add("Region");
+            source.Items.Add("Shippers");
+            source.Items.Add("Suppliers");
+            source.Items.Add("Territories");
+            comboBox1.Text = currenttable = comboBox1.Items[0].ToString();
+        }
+
+        private void SetupDataGridViewRows(DataGridView source, SqlDataReader reader)
+        {
+            #region CustomerDemographics
+            if (currenttable == "CustomerDemographics")
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            #endregion
+
+            #region CustomerCustomerDemo
+            if (currenttable == "CustomerCustomerDemo")
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            #endregion
+
+            #region Customers
+            if (currenttable == "Customers")
+                while (reader.Read())
+                {
+                    source.Rows.Add(reader[0], reader[1], reader[2],
+                        reader[3], reader[4], reader[5],
+                        reader[6], reader[7], reader[8],
+                        reader[9]);
+                }
+            #endregion
+
+            #region Employees
+            if (currenttable == "Employees")
+                while (reader.Read())
+                {
+                    source.Rows.Add(reader[0], reader[1], reader[2],
+                        reader[3], reader[4], reader[5],
+                        reader[6], reader[7], reader[8],
+                        reader[9], reader[10], reader[11],
+                        reader[12], reader[13], reader[14],
+                        reader[15], reader[16]);
+                }
+            #endregion
+
+            #region [Order Details]
+            if (currenttable == "[Order Details]")
+                while (reader.Read())
+                {
+                    source.Rows.Add(reader[0], reader[1], reader[2],
+                        reader[3], reader[4]);
+                }
+            #endregion
+
+            #region EmployeeTerritories
+            if (currenttable == "EmployeeTerritories")
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            #endregion
+
+            #region Orders
+            if (currenttable == "Orders")
+                while (reader.Read())
+                {
+                    source.Rows.Add(reader[0], reader[1], reader[2],
+                        reader[3], reader[4], reader[5],
+                        reader[6], reader[7], reader[8],
+                        reader[9], reader[10], reader[11],
+                        reader[12], reader[13]);
+                }
+            #endregion
+
+            #region Products
+            if (currenttable == "Products")
+                while (reader.Read())
+                {
+                    source.Rows.Add(reader[0], reader[1], reader[2],
+                        reader[3], reader[4], reader[5],
+                        reader[6], reader[7], reader[8],
+                        reader[9]);
+                }
+            #endregion
+
+            #region Region
+            if (currenttable == "Region")
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            #endregion
+
+            #region Shippers
+            if (currenttable == "Shippers") while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+            #endregion
+
+            #region Categories
+            if (currenttable == "Categories")
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+            #endregion
+
+            #region Suppliers
+            if (currenttable == "Suppliers")
+                while (reader.Read())
+                {
+                    source.Rows.Add(reader[0], reader[1], reader[2],
+                        reader[3], reader[4], reader[5],
+                        reader[6], reader[7], reader[8],
+                        reader[9], reader[10], reader[11]);
+                }
+            #endregion
+
+            #region Territories
+            if (currenttable == "Territories")
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+            #endregion
+        }
 
         private void SetupDataGridViewColumns(DataGridView source)
         {
+            #region CustomerDemographics
+            if (currenttable == "CustomerDemographics")
+            {
+                source.Columns.Add("CustomerTypeID", "CustomerTypeID");
+                source.Columns.Add("CustomerDesc", "CustomerDesc");
+            }
+            #endregion
 
-            DataGridViewImageColumn imgcolumn = new DataGridViewImageColumn();
-            imgcolumn.HeaderText = "Picture";
-            imgcolumn.Name = "pic";
+            #region CustomerCustomerDemo
+            if (currenttable == "CustomerCustomerDemo")
+            {
+                source.Columns.Add("CustomerID", "CustomerID");
+                source.Columns.Add("CustomerTypeID", "CustomerTypeID");
 
-            source.Columns.Add("CategID", "Category ID");
-            source.Columns.Add("CategName", "Category Name");
-            source.Columns.Add("Desc", "Description");
-            source.Columns.Add(imgcolumn);
-            source.Columns.Add("LastEdit", "Last Edit Date");
-            source.Columns.Add("Creation", "Creation Date");
+            }
+            #endregion
+
+            #region Customers
+            if (currenttable == "Customers")
+            {
+                source.Columns.Add("CompanyName", "CompanyName");
+                source.Columns.Add("ContactName", "ContactName");
+                source.Columns.Add("ContactTitle", "ContactTitle");
+                source.Columns.Add("Address", "Address");
+                source.Columns.Add("City", "City");
+                source.Columns.Add("Region", "Region");
+                source.Columns.Add("PostalCode", "PostalCode");
+                source.Columns.Add("Country", "Country");
+                source.Columns.Add("Phone", "Phone");
+                source.Columns.Add("Fax", "Fax");
+            }
+            #endregion
+
+            #region Employees
+            if (currenttable == "Employees")
+            {
+                source.Columns.Add("EmployeeID", "EmployeeID");
+                source.Columns.Add("LastName", "LastName");
+                source.Columns.Add("FirstName", "FirstName");
+                source.Columns.Add("Title", "Title");
+                source.Columns.Add("TitleOfCourtesy", "TitleOfCourtesy");
+                source.Columns.Add("BirthDate", "BirthDate");
+                source.Columns.Add("HireDate", "HireDate");
+                source.Columns.Add("Address", "Address");
+                source.Columns.Add("City", "City");
+                source.Columns.Add("Region", "Region");
+                source.Columns.Add("PostalCode", "PostalCode");
+                source.Columns.Add("Country", "Country");
+                source.Columns.Add("HomePhone", "HomePhone");
+                source.Columns.Add("Extension", "Extension");
+                source.Columns.Add("Photo", "Photo");
+                source.Columns.Add("Notes", "Notes");
+                source.Columns.Add("ReportsTo", "ReportsTo");
+                source.Columns.Add("PhotoPath", "PhotoPath");
+
+
+            }
+            #endregion
+
+            #region [Order Details]
+            if (currenttable == "[Order Details]")
+            {
+                source.Columns.Add("OrderID", "OrderID");
+                source.Columns.Add("ProductID", "ProductID");
+                source.Columns.Add("UnitPrice", "UnitPrice");
+                source.Columns.Add("Quantity", "Quantity");
+                source.Columns.Add("Discount", "Discount");
+
+            }
+            #endregion
+
+            #region EmployeeTerritories
+            if (currenttable == "EmployeeTerritories")
+            {
+                source.Columns.Add("EmployeeID", "EmployeeID");
+                source.Columns.Add("TerritoryID", "TerritoryID");
+
+            }
+            #endregion
+
+            #region Orders
+            if (currenttable == "Orders")
+            {
+                source.Columns.Add("OrderID", "OrderID");
+                source.Columns.Add("CustomerID", "CustomerID");
+                source.Columns.Add("EmployeeID", "EmployeeID");
+                source.Columns.Add("OrderDate", "OrderDate");
+                source.Columns.Add("RequiredDate", "RequiredDate");
+                source.Columns.Add("ShippedDate", "ShippedDate");
+                source.Columns.Add("ShipVia", "ShipVia");
+                source.Columns.Add("Freight", "Freight");
+                source.Columns.Add("ShipName", "ShipName");
+                source.Columns.Add("ShipAddress", "ShipAddress");
+                source.Columns.Add("ShipCity", "ShipCity");
+                source.Columns.Add("ShipRegion", "ShipRegion");
+                source.Columns.Add("ShipPostalCode", "ShipPostalCode");
+                source.Columns.Add("ShipCountry", "ShipCountry");
+
+            }
+            #endregion
+
+            #region Products
+            if (currenttable == "Products")
+            {
+                source.Columns.Add("ProductID", "ProductID");
+                source.Columns.Add("ProductName", "ProductName");
+                source.Columns.Add("SupplierID", "SupplierID");
+                source.Columns.Add("CategoryID", "CategoryID");
+                source.Columns.Add("QuantityPerUnit", "QuantityPerUnit");
+                source.Columns.Add("UnitPrice", "UnitPrice");
+                source.Columns.Add("UnitsInStock", "UnitsInStock");
+                source.Columns.Add("UnitsOnOrder", "UnitsOnOrder");
+                source.Columns.Add("ReorderLevel", "ReorderLevel");
+                source.Columns.Add("Discontinued", "Discontinued");
+
+            }
+            #endregion
+
+            #region Region
+            if (currenttable == "Region")
+            {
+                source.Columns.Add("RegionID", "RegionID");
+                source.Columns.Add("RegionDescription", "RegionDescription");
+            }
+            #endregion
+
+            #region Shippers
+            if (currenttable == "Shippers")
+            {
+                source.Columns.Add("ShipperID", "ShipperID");
+                source.Columns.Add("CompanyName", "CompanyName");
+                source.Columns.Add("Phone", "Phone");
+
+            }
+            #endregion
+
+            #region Categories
+            if (currenttable == "Categories")
+            {
+                source.Columns.Add("CategoryID", "CategoryID");
+                source.Columns.Add("CategoryName", "CategoryName");
+                source.Columns.Add("Description", "Description");
+                DataGridViewImageColumn imgcolumn = new DataGridViewImageColumn();
+
+                imgcolumn.HeaderText = "Picture";
+                imgcolumn.Name = "pic";
+                source.Columns.Add(imgcolumn);
+
+            }
+            #endregion
+
+            #region Suppliers
+            if (currenttable == "Suppliers")
+            {
+                source.Columns.Add("SupplierID", "SupplierID");
+                source.Columns.Add("CompanyName", "CompanyName");
+                source.Columns.Add("ContactName", "ContactName");
+                source.Columns.Add("ContactTitle", "ContactTitle");
+                source.Columns.Add("Address", "Address");
+                source.Columns.Add("City", "City");
+                source.Columns.Add("Region", "Region");
+                source.Columns.Add("PostalCode", "PostalCode");
+                source.Columns.Add("Country", "Country");
+                source.Columns.Add("Phone", "Phone");
+                source.Columns.Add("Fax", "Fax");
+                source.Columns.Add("HomePage", "HomePage");
+            }
+            #endregion
+
+            #region CustomerDemographics
+            if (currenttable == "Territories")
+            {
+                source.Columns.Add("TerritoryID", "TerritoryID");
+                source.Columns.Add("TerritoryDescription", "TerritoryDescription");
+                source.Columns.Add("RegionID", "RegionID");
+            }
+            #endregion
         }
 
         private void ClearDataGridView(DataGridView source)
         {
             if (!firstrun)
             {
-                //foo.DataSource = null;
-                // ClearDataGridViewRows(source);
                 source.DataSource = null;
+
                 if (isonline)
                 {
                     ClearDataGridViewRows(source);
                     ClearDataGridViewColumns(source);
                     SetupDataGridViewColumns(source);
                 }
-                else
-                {
-                    //source.DataSource = null;
-                    ClearDataGridViewColumns(source);
-                }
-
-                //SetupDataGridViewColumns(foo);
+                else { ClearDataGridViewColumns(source); }
             }
 
         }
 
-        private void ClearDataGridViewRows(DataGridView foo)
-        {
-            try { foo.Rows.Clear(); }
-            catch { MessageBox.Show("cannot clear rows"); }
-        }
+        private void ClearDataGridViewRows(DataGridView foo) { foo.Rows.Clear(); }
 
-        private void ClearDataGridViewColumns(DataGridView foo)
-        {
-            try { foo.Columns.Clear(); }
-            catch { MessageBox.Show("cannot clear columns"); }
+        private void ClearDataGridViewColumns(DataGridView foo) { foo.Columns.Clear(); }
 
-        }
+        private void ClearTextboxes() { tbname.Text = tbdesc.Text = tbid.Text = ""; }
 
-        private void ClearTextboxes()
-        {
-            tbname.Text = "";
-            tbdesc.Text = "";
-            tbid.Text = "";
-        }
+        #endregion
 
+        #region Handle the RadioButtons
         private void roffline_CheckedChanged(object sender, EventArgs e)
         {
             if (!firstrun)
             {
+                if (connection.State != ConnectionState.Closed) connection.Close();
                 isonline = false;
 
-                // roffline.Enabled = false;
-                // ronline.Enabled = true;
+                roffline.Enabled = false;
+                ronline.Enabled = true;
 
-                // ClearDataGridView(mainDataGrid);
-
-                RefreshView();
+                RefreshView(currenttable);
             }
         }
 
@@ -205,46 +482,40 @@ namespace Northwind
         {
             if (!firstrun)
             {
+                if (connection.State != ConnectionState.Open) connection.Open();
                 isonline = true;
 
-                //roffline.Enabled = true;
-                //ronline.Enabled = false;
+                roffline.Enabled = true;
+                ronline.Enabled = false;
 
-                //ClearDataGridView(mainDataGrid);
-
-                RefreshView();
+                RefreshView(currenttable);
             }
         }
+        #endregion
 
         private void btnadd_Click(object sender, EventArgs e)
         {
-            if (isonline)
-            {
-                query = "INSERT INTO Categories(CategoryName, Description)" +
+            query = "INSERT INTO Categories(CategoryName, Description, Creation Date, LastEditDate)" +
                     "VALUES('" + tbname.Text + "','" + tbdesc.Text + "')";
 
+            if (isonline)
+            {
                 if (tbname.Text != "" || tbdesc.Text != "")
                 {
                     try
                     {
                         command = new SqlCommand(query, connection);
-                        connection.Open();
 
                         command.ExecuteNonQuery();
-                        RefreshView();
+                        RefreshView(currenttable);
                         ClearTextboxes();
                     }
                     catch { MessageBox.Show("error while  ajouter online"); }
-                    finally { connection.Close(); }
                 }
-                else
-                {
-                    MessageBox.Show("Insert values first!");
-                }
+                else { MessageBox.Show("Insert values first!"); }
             }
             else
             {
-                query = "";
 
             }
         }
@@ -260,7 +531,7 @@ namespace Northwind
                 {
                     try
                     {
-                        connection.Open();
+
 
                         //CategoryName, Description
                         command = new SqlCommand(query, connection);
@@ -275,7 +546,6 @@ namespace Northwind
                     finally
                     {
                         reader.Close();
-                        connection.Close();
                     }
                 }
             }
@@ -297,8 +567,9 @@ namespace Northwind
                 {
                     try
                     {
-                        connection.Open();
+                        // connection.Open();
 
+                        #region Tests SqlParameter
                         //
                         //List<SqlParameter> listp = new List<SqlParameter>();
 
@@ -317,21 +588,21 @@ namespace Northwind
 
                         //for (int i = 0; i < listp.Count; i++) cmd.Parameters.Add(listp[i]);
 
+                        #endregion
+
                         command = new SqlCommand(query, connection);
 
                         // cmd.Parameters = param;
                         command.ExecuteNonQuery();
 
-                        RefreshView();
+                        RefreshView(currenttable);
                         ClearTextboxes();
                     }
                     catch { MessageBox.Show("Test"); }
-                    finally { connection.Close(); }
+                    // finally { connection.Close(); }
                 }
-                else // no input from the user
-                {
-                    MessageBox.Show("Insert values first!");
-                }
+                // no input from the user
+                else { MessageBox.Show("Insert values first!"); }
             }
             else // offline
             {
@@ -348,15 +619,15 @@ namespace Northwind
                 // online
                 try
                 {
-                    connection.Open();
+
                     command = new SqlCommand(query, connection);
 
                     command.ExecuteNonQuery();
-                    RefreshView();
+                    RefreshView(currenttable);
                     ClearTextboxes();
                 }
                 catch { MessageBox.Show("Test"); }
-                finally { connection.Close(); }
+                //finally { connection.Close(); }
             }
             else // offline
             {
@@ -401,10 +672,12 @@ namespace Northwind
             // MessageBox.Show(config.DataSource + " " + config.InitialCatalog + " " + config.IntegratedSecurity);
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            // load();
-        }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text.Contains(' ')) currenttable = comboBox1.Text;
+
+            MessageBox.Show(currenttable);
+        }
     }
 }
