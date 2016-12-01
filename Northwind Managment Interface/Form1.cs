@@ -22,7 +22,8 @@ namespace Northwind
         SqlCommand command;
         SqlDataReader reader;
         SqlDataAdapter adapter;
-        string connstring = "data source = (local); initial catalog = Northwind ; integrated security = yes";
+        string connstring = "data source = (local); initial catalog = Northwind;" +
+            "integrated security = yes";
         string query;
 
         DataSet Northwind;
@@ -66,18 +67,20 @@ namespace Northwind
 
             SetupDataGridViewColumns(mainDataGrid);
 
-            RefreshView(currenttable);
+            RefreshFormView(currenttable);
 
             firstrun = false;  // end of the `firstrun`.
 
         }
+
+        private string ToSqlstring(string str) { return "[" + str + "]"; }
 
         private int getindex(string table)
         {
             if (table == "Categories") return 0;
             else if (table == "Customers") return 1;
             else if (table == "Employees") return 2;
-            else if (table == "[Order Details]") return 3;
+            else if (table == "Order Details") return 3;
             else if (table == "Orders") return 4;
             else if (table == "Products") return 5;
             else if (table == "Region") return 6;
@@ -87,13 +90,13 @@ namespace Northwind
             else return -1;
         }
 
-        private void RefreshView(string table)
+        private void RefreshFormView(string table)
         {
             int index = getindex(table);
 
             if (index != (-1))
             {
-                query = "SELECT * FROM " + table;
+                query = "SELECT * FROM " + ToSqlstring(table);
 
                 if (firstrun || !(iscreated[index]))
                 {
@@ -129,7 +132,7 @@ namespace Northwind
 
                         ClearDataGridView(mainDataGrid);
 
-                        mainDataGrid.DataSource = Northwind.Tables["tCategories"];
+                        mainDataGrid.DataSource = Northwind.Tables["t" + table];
                     }
                     catch { MessageBox.Show("error while load offline"); }
                 }
@@ -155,106 +158,112 @@ namespace Northwind
 
         private void SetupDataGridViewRows(DataGridView source, SqlDataReader reader)
         {
-            #region CustomerDemographics
-            if (currenttable == "CustomerDemographics")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
-            #endregion
+            //#region CustomerDemographics
+            //if (currenttable == "CustomerDemographics")
+            //    while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            //#endregion
 
-            #region CustomerCustomerDemo
-            if (currenttable == "CustomerCustomerDemo")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
-            #endregion
+            //#region CustomerCustomerDemo
+            //if (currenttable == "CustomerCustomerDemo")
+            //    while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            //#endregion
 
-            #region Customers
-            if (currenttable == "Customers")
-                while (reader.Read())
-                {
-                    source.Rows.Add(reader[0], reader[1], reader[2],
-                        reader[3], reader[4], reader[5],
-                        reader[6], reader[7], reader[8],
-                        reader[9]);
-                }
-            #endregion
+            //#region Customers
+            //if (currenttable == "Customers")
+            //    while (reader.Read())
+            //    {
+            //        source.Rows.Add(reader[0], reader[1], reader[2],
+            //            reader[3], reader[4], reader[5],
+            //            reader[6], reader[7], reader[8],
+            //            reader[9]);
+            //    }
+            //#endregion
 
-            #region Employees
-            if (currenttable == "Employees")
-                while (reader.Read())
-                {
-                    source.Rows.Add(reader[0], reader[1], reader[2],
-                        reader[3], reader[4], reader[5],
-                        reader[6], reader[7], reader[8],
-                        reader[9], reader[10], reader[11],
-                        reader[12], reader[13], reader[14],
-                        reader[15], reader[16]);
-                }
-            #endregion
+            //#region Employees
+            //if (currenttable == "Employees")
+            //    while (reader.Read())
+            //    {
+            //        source.Rows.Add(reader[0], reader[1], reader[2],
+            //            reader[3], reader[4], reader[5],
+            //            reader[6], reader[7], reader[8],
+            //            reader[9], reader[10], reader[11],
+            //            reader[12], reader[13], reader[14],
+            //            reader[15], reader[16]);
+            //    }
+            //#endregion
 
-            #region [Order Details]
-            if (currenttable == "[Order Details]")
-                while (reader.Read())
-                {
-                    source.Rows.Add(reader[0], reader[1], reader[2],
-                        reader[3], reader[4]);
-                }
-            #endregion
+            //#region Order Details
+            //if (currenttable == "Order Details")
+            //    while (reader.Read())
+            //    {
+            //        source.Rows.Add(reader[0], reader[1], reader[2],
+            //            reader[3], reader[4]);
+            //    }
+            //#endregion
 
-            #region EmployeeTerritories
-            if (currenttable == "EmployeeTerritories")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
-            #endregion
+            //#region EmployeeTerritories
+            //if (currenttable == "EmployeeTerritories")
+            //    while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            //#endregion
 
-            #region Orders
-            if (currenttable == "Orders")
-                while (reader.Read())
-                {
-                    source.Rows.Add(reader[0], reader[1], reader[2],
-                        reader[3], reader[4], reader[5],
-                        reader[6], reader[7], reader[8],
-                        reader[9], reader[10], reader[11],
-                        reader[12], reader[13]);
-                }
-            #endregion
+            //#region Orders
+            //if (currenttable == "Orders")
+            //    while (reader.Read())
+            //    {
+            //        source.Rows.Add(reader[0], reader[1], reader[2],
+            //            reader[3], reader[4], reader[5],
+            //            reader[6], reader[7], reader[8],
+            //            reader[9], reader[10], reader[11],
+            //            reader[12], reader[13]);
+            //    }
+            //#endregion
 
-            #region Products
-            if (currenttable == "Products")
-                while (reader.Read())
-                {
-                    source.Rows.Add(reader[0], reader[1], reader[2],
-                        reader[3], reader[4], reader[5],
-                        reader[6], reader[7], reader[8],
-                        reader[9]);
-                }
-            #endregion
+            //#region Products
+            //if (currenttable == "Products")
+            //    while (reader.Read())
+            //    {
+            //        source.Rows.Add(reader[0], reader[1], reader[2],
+            //            reader[3], reader[4], reader[5],
+            //            reader[6], reader[7], reader[8],
+            //            reader[9]);
+            //    }
+            //#endregion
 
-            #region Region
-            if (currenttable == "Region")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
-            #endregion
+            //#region Region
+            //if (currenttable == "Region")
+            //    while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
+            //#endregion
 
-            #region Shippers
-            if (currenttable == "Shippers") while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
-            #endregion
+            //#region Shippers
+            //if (currenttable == "Shippers") while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+            //#endregion
 
-            #region Categories
-            if (currenttable == "Categories")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
-            #endregion
+            //#region Categories
+            //if (currenttable == "Categories")
+            //    while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+            //#endregion
 
-            #region Suppliers
-            if (currenttable == "Suppliers")
-                while (reader.Read())
-                {
-                    source.Rows.Add(reader[0], reader[1], reader[2],
-                        reader[3], reader[4], reader[5],
-                        reader[6], reader[7], reader[8],
-                        reader[9], reader[10], reader[11]);
-                }
-            #endregion
+            //#region Suppliers
+            //if (currenttable == "Suppliers")
+            //    while (reader.Read())
+            //    {
+            //        source.Rows.Add(reader[0], reader[1], reader[2],
+            //            reader[3], reader[4], reader[5],
+            //            reader[6], reader[7], reader[8],
+            //            reader[9], reader[10], reader[11]);
+            //    }
+            //#endregion
 
-            #region Territories
-            if (currenttable == "Territories")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
-            #endregion
+            //#region Territories
+            //if (currenttable == "Territories")
+            //    while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+            //#endregion
+
+            List<object> r = new List<object>();
+            foreach (var item in reader) r.Add(item);
+
+
+            while (reader.Read()) source.Rows.Add(r);
         }
 
         private void SetupDataGridViewColumns(DataGridView source)
@@ -318,8 +327,8 @@ namespace Northwind
             }
             #endregion
 
-            #region [Order Details]
-            if (currenttable == "[Order Details]")
+            #region Order Details
+            if (currenttable == "Order Details")
             {
                 source.Columns.Add("OrderID", "OrderID");
                 source.Columns.Add("ProductID", "ProductID");
@@ -436,6 +445,7 @@ namespace Northwind
                 source.Columns.Add("RegionID", "RegionID");
             }
             #endregion
+
         }
 
         private void ClearDataGridView(DataGridView source)
@@ -474,7 +484,7 @@ namespace Northwind
                 roffline.Enabled = false;
                 ronline.Enabled = true;
 
-                RefreshView(currenttable);
+                RefreshFormView(currenttable);
             }
         }
 
@@ -488,7 +498,7 @@ namespace Northwind
                 roffline.Enabled = true;
                 ronline.Enabled = false;
 
-                RefreshView(currenttable);
+                RefreshFormView(currenttable);
             }
         }
         #endregion
@@ -507,7 +517,7 @@ namespace Northwind
                         command = new SqlCommand(query, connection);
 
                         command.ExecuteNonQuery();
-                        RefreshView(currenttable);
+                        RefreshFormView(currenttable);
                         ClearTextboxes();
                     }
                     catch { MessageBox.Show("error while  ajouter online"); }
@@ -595,7 +605,7 @@ namespace Northwind
                         // cmd.Parameters = param;
                         command.ExecuteNonQuery();
 
-                        RefreshView(currenttable);
+                        RefreshFormView(currenttable);
                         ClearTextboxes();
                     }
                     catch { MessageBox.Show("Test"); }
@@ -623,7 +633,7 @@ namespace Northwind
                     command = new SqlCommand(query, connection);
 
                     command.ExecuteNonQuery();
-                    RefreshView(currenttable);
+                    RefreshFormView(currenttable);
                     ClearTextboxes();
                 }
                 catch { MessageBox.Show("Test"); }
@@ -675,9 +685,9 @@ namespace Northwind
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.Text.Contains(' ')) currenttable = comboBox1.Text;
+            if(!firstrun) RefreshFormView((currenttable = comboBox1.Text));
 
-            MessageBox.Show(currenttable);
+            //MessageBox.Show(currenttable);
         }
     }
 }
