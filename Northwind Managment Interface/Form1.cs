@@ -22,7 +22,8 @@ namespace Northwind
         SqlCommand command;
         SqlDataReader reader;
         SqlDataAdapter adapter;
-        string connstring = "data source = (local); initial catalog = Northwind ; integrated security = yes";
+        string connstring = "data source = (local); initial catalog = Northwind;" +
+            "integrated security = yes";
         string query;
 
         DataSet Northwind;
@@ -41,13 +42,17 @@ namespace Northwind
          */
         bool[] iscreated = new bool[10];
 
-
         string currenttable;
+
+        int addedrows, removedrows;
+
+        bool valid = false;
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
             connection = new SqlConnection(connstring);
-            Northwind = new DataSet("Northwind");
+          Northwind = new DataSet("Northwind");
 
             // init
             connection.Open();
@@ -66,18 +71,26 @@ namespace Northwind
 
             SetupDataGridViewColumns(mainDataGrid);
 
-            RefreshView(currenttable);
+            RefreshFormView(currenttable);
+
+            btnsend.Hide();
+
+            label5.Text = label6.Text = string.Empty;
+
+            addedrows = removedrows = 0;
 
             firstrun = false;  // end of the `firstrun`.
 
         }
+
+        private string ToSqlstring(string str) { return "[" + str + "]"; }
 
         private int getindex(string table)
         {
             if (table == "Categories") return 0;
             else if (table == "Customers") return 1;
             else if (table == "Employees") return 2;
-            else if (table == "[Order Details]") return 3;
+            else if (table == "Order Details") return 3;
             else if (table == "Orders") return 4;
             else if (table == "Products") return 5;
             else if (table == "Region") return 6;
@@ -87,13 +100,13 @@ namespace Northwind
             else return -1;
         }
 
-        private void RefreshView(string table)
+        private void RefreshFormView(string table)
         {
             int index = getindex(table);
 
             if (index != (-1))
             {
-                query = "SELECT * FROM " + table;
+                query = "SELECT * FROM " + ToSqlstring(table);
 
                 if (firstrun || !(iscreated[index]))
                 {
@@ -115,7 +128,8 @@ namespace Northwind
                         ClearDataGridView(mainDataGrid);
 
                         SetupDataGridViewRows(mainDataGrid, reader);
-                        
+                        lblrecords.Text = (mainDataGrid.Rows.Count - 1).ToString();
+
                     }
                     catch { MessageBox.Show("error while load online"); }
                     finally { reader.Close(); }
@@ -125,11 +139,12 @@ namespace Northwind
                     try
                     {
                         // I DO NOT KNOW!
-                        // UPDATE: NOW I KNOW...
+                        // UPDATE: NOW I DO KNOW...
 
                         ClearDataGridView(mainDataGrid);
 
-                        mainDataGrid.DataSource = Northwind.Tables["tCategories"];
+                        mainDataGrid.DataSource = Northwind.Tables["t" + table];
+                        lblrecords.Text = (mainDataGrid.Rows.Count - 1).ToString();
                     }
                     catch { MessageBox.Show("error while load offline"); }
                 }
@@ -155,6 +170,7 @@ namespace Northwind
 
         private void SetupDataGridViewRows(DataGridView source, SqlDataReader reader)
         {
+
             #region CustomerDemographics
             if (currenttable == "CustomerDemographics")
                 while (reader.Read()) source.Rows.Add(reader[0], reader[1]);
@@ -189,8 +205,8 @@ namespace Northwind
                 }
             #endregion
 
-            #region [Order Details]
-            if (currenttable == "[Order Details]")
+            #region Order Details
+            if (currenttable == "Order Details")
                 while (reader.Read())
                 {
                     source.Rows.Add(reader[0], reader[1], reader[2],
@@ -237,7 +253,7 @@ namespace Northwind
 
             #region Categories
             if (currenttable == "Categories")
-                while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
+                while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2], reader[3], reader[4], reader[5]);
             #endregion
 
             #region Suppliers
@@ -255,6 +271,12 @@ namespace Northwind
             if (currenttable == "Territories")
                 while (reader.Read()) source.Rows.Add(reader[0], reader[1], reader[2]);
             #endregion
+
+            //DataGridViewRow r = new DataGridViewRow();
+            //int i = 0;
+            //foreach (var item in reader) r.Cells[++i].Value = item;
+
+            //while (reader.Read()) source.Rows.Add(r);
         }
 
         private void SetupDataGridViewColumns(DataGridView source)
@@ -318,8 +340,8 @@ namespace Northwind
             }
             #endregion
 
-            #region [Order Details]
-            if (currenttable == "[Order Details]")
+            #region Order Details
+            if (currenttable == "Order Details")
             {
                 source.Columns.Add("OrderID", "OrderID");
                 source.Columns.Add("ProductID", "ProductID");
@@ -406,6 +428,8 @@ namespace Northwind
                 imgcolumn.HeaderText = "Picture";
                 imgcolumn.Name = "pic";
                 source.Columns.Add(imgcolumn);
+                source.Columns.Add("LastEditDate", "LastEditDate");
+                source.Columns.Add("CreationDate", "CreationDate");
 
             }
             #endregion
@@ -436,6 +460,7 @@ namespace Northwind
                 source.Columns.Add("RegionID", "RegionID");
             }
             #endregion
+
         }
 
         private void ClearDataGridView(DataGridView source)
@@ -474,7 +499,7 @@ namespace Northwind
                 roffline.Enabled = false;
                 ronline.Enabled = true;
 
-                RefreshView(currenttable);
+                RefreshFormView(currenttable);
             }
         }
 
@@ -488,15 +513,17 @@ namespace Northwind
                 roffline.Enabled = true;
                 ronline.Enabled = false;
 
-                RefreshView(currenttable);
+                RefreshFormView(currenttable);
             }
         }
         #endregion
 
         private void btnadd_Click(object sender, EventArgs e)
         {
-            query = "INSERT INTO Categories(CategoryName, Description, Creation Date, LastEditDate)" +
+            query = "INSERT INTO Categories(CategoryName, Description)" +
                     "VALUES('" + tbname.Text + "','" + tbdesc.Text + "')";
+
+
 
             if (isonline)
             {
@@ -507,16 +534,38 @@ namespace Northwind
                         command = new SqlCommand(query, connection);
 
                         command.ExecuteNonQuery();
-                        RefreshView(currenttable);
+                        RefreshFormView(currenttable);
                         ClearTextboxes();
+                        valid = true;
                     }
-                    catch { MessageBox.Show("error while  ajouter online"); }
+                    catch { MessageBox.Show("error while add online"); }
                 }
                 else { MessageBox.Show("Insert values first!"); }
             }
             else
             {
+                // (this is a bug, i don't understand why the datarow is not working)
+                // TODO: this problem shall be solved as soon as possible.
+                try
+                {
+                    DataRow dr = Northwind.Tables[currenttable].NewRow();
+                    dr[0] = tbname.Text;
+                    dr[1] = tbdesc.Text;
+                    Northwind.Tables[currenttable].Rows.Add(dr);
 
+                    valid = true;
+                }
+                catch
+                {
+                    MessageBox.Show("Test");
+                }
+            }
+
+            if (valid)
+            {
+                ++addedrows;
+                label5.Text = "+ " + addedrows.ToString();
+                valid = false;
             }
         }
 
@@ -595,7 +644,7 @@ namespace Northwind
                         // cmd.Parameters = param;
                         command.ExecuteNonQuery();
 
-                        RefreshView(currenttable);
+                        RefreshFormView(currenttable);
                         ClearTextboxes();
                     }
                     catch { MessageBox.Show("Test"); }
@@ -623,8 +672,9 @@ namespace Northwind
                     command = new SqlCommand(query, connection);
 
                     command.ExecuteNonQuery();
-                    RefreshView(currenttable);
+                    RefreshFormView(currenttable);
                     ClearTextboxes();
+                    valid = true;
                 }
                 catch { MessageBox.Show("Test"); }
                 //finally { connection.Close(); }
@@ -632,6 +682,14 @@ namespace Northwind
             else // offline
             {
 
+                valid = true;
+            }
+
+            if (valid)
+            {
+                ++removedrows;
+                label6.Text = "- " + removedrows.ToString();
+                valid = false;
             }
         }
 
@@ -675,7 +733,7 @@ namespace Northwind
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.Text.Contains(' ')) currenttable = comboBox1.Text;
+            if (!firstrun) RefreshFormView((currenttable = comboBox1.Text));
 
             MessageBox.Show(currenttable);
         }

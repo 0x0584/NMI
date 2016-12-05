@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.listbox = new System.Windows.Forms.ListBox();
             this.btnadd = new System.Windows.Forms.Button();
             this.tbname = new System.Windows.Forms.TextBox();
@@ -47,11 +46,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.mainDataGrid = new System.Windows.Forms.DataGridView();
-            this.northwindDataSet = new Northwind.NorthwindDataSet();
-            this.northwindDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.lblrecords = new System.Windows.Forms.Label();
+            this.btnsend = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // listbox
@@ -136,7 +135,7 @@
             // roffline
             // 
             this.roffline.AutoSize = true;
-            this.roffline.Location = new System.Drawing.Point(601, 181);
+            this.roffline.Location = new System.Drawing.Point(548, 171);
             this.roffline.Name = "roffline";
             this.roffline.Size = new System.Drawing.Size(55, 17);
             this.roffline.TabIndex = 10;
@@ -148,7 +147,7 @@
             // ronline
             // 
             this.ronline.AutoSize = true;
-            this.ronline.Location = new System.Drawing.Point(601, 158);
+            this.ronline.Location = new System.Drawing.Point(548, 148);
             this.ronline.Name = "ronline";
             this.ronline.Size = new System.Drawing.Size(55, 17);
             this.ronline.TabIndex = 10;
@@ -206,11 +205,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(394, 102);
+            this.label4.Location = new System.Drawing.Point(394, 127);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(57, 13);
             this.label4.TabIndex = 13;
-            this.label4.Text = "label1";
+            this.label4.Text = "# Records";
             // 
             // mainDataGrid
             // 
@@ -220,15 +219,44 @@
             this.mainDataGrid.Size = new System.Drawing.Size(672, 252);
             this.mainDataGrid.TabIndex = 14;
             // 
-            // northwindDataSet
+            // lblrecords
             // 
-            this.northwindDataSet.DataSetName = "NorthwindDataSet";
-            this.northwindDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.lblrecords.AutoSize = true;
+            this.lblrecords.Location = new System.Drawing.Point(457, 127);
+            this.lblrecords.Name = "lblrecords";
+            this.lblrecords.Size = new System.Drawing.Size(0, 13);
+            this.lblrecords.TabIndex = 15;
             // 
-            // northwindDataSetBindingSource
+            // btnsend
             // 
-            this.northwindDataSetBindingSource.DataSource = this.northwindDataSet;
-            this.northwindDataSetBindingSource.Position = 0;
+            this.btnsend.Location = new System.Drawing.Point(610, 182);
+            this.btnsend.Name = "btnsend";
+            this.btnsend.Size = new System.Drawing.Size(75, 40);
+            this.btnsend.TabIndex = 16;
+            this.btnsend.Text = "Send to the server";
+            this.btnsend.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label5.Location = new System.Drawing.Point(441, 105);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(16, 17);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "+";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Maroon;
+            this.label6.Location = new System.Drawing.Point(407, 105);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 17);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "-";
             // 
             // Form1
             // 
@@ -236,6 +264,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(696, 504);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.btnsend);
+            this.Controls.Add(this.lblrecords);
             this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -259,8 +291,6 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.northwindDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,8 +316,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView mainDataGrid;
-        private NorthwindDataSet northwindDataSet;
-        private System.Windows.Forms.BindingSource northwindDataSetBindingSource;
+        //private NorthwindDataSet northwindDataSet;
+        private System.Windows.Forms.Label lblrecords;
+        private System.Windows.Forms.Button btnsend;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 
