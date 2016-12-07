@@ -11,9 +11,9 @@ using Microsoft.SqlServer.Server;
 
 namespace Northwind
 {
-    public partial class Form2 : Form
+    public partial class ConfigForm : Form
     {
-        public Form2() { InitializeComponent(); }
+        public ConfigForm() { InitializeComponent(); }
 
         //
         string dataSource = "";

@@ -1,6 +1,6 @@
 ﻿namespace Northwind
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -50,6 +50,7 @@
             this.btnsend = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnfillform = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -218,6 +219,7 @@
             this.mainDataGrid.Name = "mainDataGrid";
             this.mainDataGrid.Size = new System.Drawing.Size(672, 252);
             this.mainDataGrid.TabIndex = 14;
+            this.mainDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellClick);
             // 
             // lblrecords
             // 
@@ -258,12 +260,23 @@
             this.label6.TabIndex = 17;
             this.label6.Text = "-";
             // 
-            // Form1
+            // btnfillform
+            // 
+            this.btnfillform.Location = new System.Drawing.Point(614, 141);
+            this.btnfillform.Name = "btnfillform";
+            this.btnfillform.Size = new System.Drawing.Size(75, 23);
+            this.btnfillform.TabIndex = 18;
+            this.btnfillform.Text = "add using form";
+            this.btnfillform.UseVisualStyleBackColor = true;
+            this.btnfillform.Click += new System.EventHandler(this.btnfillform_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(696, 504);
+            this.Controls.Add(this.btnfillform);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnsend);
@@ -286,7 +299,7 @@
             this.Controls.Add(this.tbname);
             this.Controls.Add(this.btnadd);
             this.Controls.Add(this.listbox);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -321,6 +334,7 @@
         private System.Windows.Forms.Button btnsend;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnfillform;
     }
 }
 

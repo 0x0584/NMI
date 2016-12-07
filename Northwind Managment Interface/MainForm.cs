@@ -10,14 +10,14 @@ using System.Data.SqlClient;
 
 namespace Northwind
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
 
-        Form2 config = new Form2();
+        ConfigForm config = new ConfigForm();
         SqlConnection connection;
         SqlCommand command;
         SqlDataReader reader;
@@ -52,17 +52,16 @@ namespace Northwind
         private void Form1_Load(object sender, EventArgs e)
         {
             connection = new SqlConnection(connstring);
-          Northwind = new DataSet("Northwind");
+            Northwind = new DataSet("Northwind");
 
             // init
             connection.Open();
             isonline = true;
             ronline.Checked = true;
             ronline.Enabled = false;
-
             // tini
 
-            tbdesc.Text = tbname.Text = "";
+            tbdesc.Text = tbname.Text = string.Empty;
             //
 
             SetupComboBox(comboBox1);
@@ -484,10 +483,11 @@ namespace Northwind
 
         private void ClearDataGridViewColumns(DataGridView foo) { foo.Columns.Clear(); }
 
-        private void ClearTextboxes() { tbname.Text = tbdesc.Text = tbid.Text = ""; }
+        private void ClearTextboxes() { tbname.Text = tbdesc.Text = tbid.Text = string.Empty; }
 
         #endregion
 
+        /* This is should be selected in the login form. So this is temnporary. \*/
         #region Handle the RadioButtons
         private void roffline_CheckedChanged(object sender, EventArgs e)
         {
@@ -498,6 +498,7 @@ namespace Northwind
 
                 roffline.Enabled = false;
                 ronline.Enabled = true;
+               
 
                 RefreshFormView(currenttable);
             }
@@ -523,11 +524,9 @@ namespace Northwind
             query = "INSERT INTO Categories(CategoryName, Description)" +
                     "VALUES('" + tbname.Text + "','" + tbdesc.Text + "')";
 
-
-
             if (isonline)
             {
-                if (tbname.Text != "" || tbdesc.Text != "")
+                if (tbname.Text != string.Empty || tbdesc.Text != string.Empty)
                 {
                     try
                     {
@@ -612,7 +611,9 @@ namespace Northwind
 
             if (isonline)
             {
-                if (tbname.Text != "" || tbdesc.Text != "" || tbid.Text != "")
+                if (tbname.Text != string.Empty ||
+                    tbdesc.Text != string.Empty ||
+                    tbid.Text != string.Empty)
                 {
                     try
                     {
@@ -730,12 +731,19 @@ namespace Northwind
             // MessageBox.Show(config.DataSource + " " + config.InitialCatalog + " " + config.IntegratedSecurity);
         }
 
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!firstrun) RefreshFormView((currenttable = comboBox1.Text));
+        }
 
-            MessageBox.Show(currenttable);
+        private void btnfillform_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void mainDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
     }
 }

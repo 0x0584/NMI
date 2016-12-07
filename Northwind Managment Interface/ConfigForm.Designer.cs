@@ -1,6 +1,6 @@
 ﻿namespace Northwind
 {
-    partial class Form2
+    partial class ConfigForm
     {
         /// <summary>
         /// Required designer variable.
@@ -151,7 +151,7 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Timeout";
             // 
-            // Form2
+            // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -168,8 +168,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox1);
-            this.Name = "Form2";
-            this.Text = "Form2";
+            this.Name = "ConfigForm";
+            this.Text = "Configure The Connection";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
