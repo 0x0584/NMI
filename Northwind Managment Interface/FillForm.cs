@@ -11,21 +11,34 @@ namespace Northwind
 {
     public partial class FillForm : Form
     {
+        /* FillObject is the main object in the form, it's 
+         * the combination of a textbox and a lable.
+         */
+        struct FillObject
+        {
+            /* This routine is to indicate the status of the 
+             * current element. it vary between two states:
+             *
+             *      + SHOW :: The object is displayed on the screen.
+             *      + HIDE :: The object is *not* displayed on the screen.
+             */
+            public enum ObjectStatus { SHOW = 0, HIDE = 1 }
+
+            private TextBox txt;
+            public TextBox Textbox { get { return txt; } set { txt = value; } }
+            
+            private Label label;
+            public Label Label { get { return label; } set { label = value; } }
+            
+            private ObjectStatus status;
+            public ObjectStatus Status { get { return status; } set { status = value; } }
+        };
+        FillObject[] fobject = new FillObject[18];
+        //
+
         List<Label> listlabel = new List<Label>();
         List<TextBox> listtextbox = new List<TextBox>();
 
-        struct FillObject
-        {
-            public enum ObjectStatus { SHOW = 0, HIDE = 1 }
-            //
-
-            public TextBox txt;
-            public Label lab;
-            public ObjectStatus status;
-
-        }
-
-        FillObject []fobject = new FillObject[18];
         public FillForm()
         {
             InitializeComponent();
@@ -33,16 +46,16 @@ namespace Northwind
 
         private void FillForm_Load(object sender, EventArgs e)
         {
-            ListLableSetup(listlabel);
-            ListTextBoxSetup(listtextbox);
-            FillObjectSetup(fobject);
+            FillObjectSetup(fobject, listtextbox, listlabel);
 
-            for(int i = 0; i < 4; ++i ) HandleFillObject(fobject, i, FillObject.ObjectStatus.SHOW);
+            for (int i = 0; i < 4; ++i) HandleFillObject(fobject, i, FillObject.ObjectStatus.SHOW);
+
 
             //MessageBox.Show();
         }
 
-        private void ListLableSetup(List<Label> source)
+        #region Setup a `FillObject` array (Using both the list of textboxes and labels)
+        private void ListLabelSetup(List<Label> source)
         {
             #region Add items to `listlable`
             source.Add(label1);
@@ -101,20 +114,35 @@ namespace Northwind
                 item.Hide();
             }
         }
-
-        private void FillObjectSetup(FillObject []source)
+        private void FillObjectSetup(FillObject[] objectsrc, List<TextBox> listtextboxsrc, List<Label> listlabelsrc)
         {
-            for (int i = 0; i < source.Length; ++i)
+            ListTextBoxSetup(listtextboxsrc);
+            ListLabelSetup(listlabelsrc);
+
+            for (int i = 0; i < objectsrc.Length; ++i)
             {
-                source[i].txt = listtextbox[i];
-                source[i].lab = listlabel[i];
-                source[i].status = FillObject.ObjectStatus.HIDE;
+                objectsrc[i].Textbox = listtextbox[i];
+                objectsrc[i].Label = listlabel[i];
+                objectsrc[i].Status = FillObject.ObjectStatus.HIDE; // Hidden by default.
             }
         }
+        #endregion
 
-        private void HandleFillObject(FillObject []source, int index, FillObject.ObjectStatus status)
+        private void HandleFillObject(FillObject[] source, int index, FillObject.ObjectStatus status)
         {
-            source[index].status = status;
+            switch ((source[index].Status = status))
+            {
+                case FillObject.ObjectStatus.SHOW:
+                    source[index].Label.Show();
+                    source[index].Textbox.Show();
+                    break;
+                case FillObject.ObjectStatus.HIDE:
+                    source[index].Label.Hide();
+                    source[index].Textbox.Hide();
+                    break;
+                default:
+                    break;
+            }
         }
 
     }

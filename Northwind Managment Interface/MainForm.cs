@@ -738,7 +738,8 @@ namespace Northwind
 
         private void btnfillform_Click(object sender, EventArgs e)
         {
-            
+            FillForm f = new FillForm();
+            f.Show();
         }
 
         private void mainDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
