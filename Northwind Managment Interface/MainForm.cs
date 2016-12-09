@@ -17,8 +17,15 @@ namespace Northwind
             InitializeComponent();
         }
 
-        ConfigForm config = new ConfigForm();
+
         SqlConnection connection;
+
+        public SqlConnection Connection
+        {
+            get { return connection; }
+            set { connection = value; }
+        }
+
         SqlCommand command;
         SqlDataReader reader;
         SqlDataAdapter adapter;
@@ -28,16 +35,18 @@ namespace Northwind
 
         DataSet Northwind;
 
-        /* when the program starts for the first time, `firstrun` is initialized as true.
+        /*
+         * when the program starts for the first time, `firstrun` is initialized as true.
          * this routine is used to avoid missing with the initial setup (which is done by 
          * calling `Form_Load()`). 
          */
         bool firstrun = true;
 
-        // `isonline`, is a bool which indicates the connection state.
+        // `isonline`, is a bool which indicates the Connection state.
         bool isonline;
 
-        /* this routine is used to avoid the creation of multiple versions of table 
+        /* 
+         * this routine is used to avoid the creation of multiple versions of table 
          * in `Northwind`. 
          */
         bool[] iscreated = new bool[10];
@@ -48,6 +57,7 @@ namespace Northwind
 
         bool valid = false;
 
+        private string ToSqlstring(string str) { return "[" + str + "]"; }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -82,8 +92,6 @@ namespace Northwind
 
         }
 
-        private string ToSqlstring(string str) { return "[" + str + "]"; }
-
         private int getindex(string table)
         {
             if (table == "Categories") return 0;
@@ -101,18 +109,11 @@ namespace Northwind
 
         private void RefreshFormView(string table)
         {
-            int index = getindex(table);
+            int index;
 
-            if (index != (-1))
+            if ((index = getindex(table)) != (-1))
             {
                 query = "SELECT * FROM " + ToSqlstring(table);
-
-                if (firstrun || !(iscreated[index]))
-                {
-                    iscreated[index] = true;
-                    adapter = new SqlDataAdapter(query, connection);
-                    adapter.Fill(Northwind, "t" + table);
-                }
 
                 if (isonline)
                 {
@@ -135,6 +136,13 @@ namespace Northwind
                 }
                 else
                 {
+                    if (firstrun || !(iscreated[index]))
+                    {
+                        iscreated[index] = true;
+                        adapter = new SqlDataAdapter(query, connection);
+                        adapter.Fill(Northwind, "t" + table);
+                    }
+
                     try
                     {
                         // I DO NOT KNOW!
@@ -487,7 +495,7 @@ namespace Northwind
 
         #endregion
 
-        /* This is should be selected in the login form. So this is temnporary. \*/
+        /*\ This is should be selected in the login form. So this is temnporary. \*/
         #region Handle the RadioButtons
         private void roffline_CheckedChanged(object sender, EventArgs e)
         {
@@ -498,7 +506,7 @@ namespace Northwind
 
                 roffline.Enabled = false;
                 ronline.Enabled = true;
-               
+
 
                 RefreshFormView(currenttable);
             }
@@ -519,6 +527,7 @@ namespace Northwind
         }
         #endregion
 
+        #region Create Delete Update Search
         private void btnadd_Click(object sender, EventArgs e)
         {
             query = "INSERT INTO Categories(CategoryName, Description)" +
@@ -617,7 +626,7 @@ namespace Northwind
                 {
                     try
                     {
-                        // connection.Open();
+                        // Connection.Open();
 
                         #region Tests SqlParameter
                         //
@@ -636,20 +645,20 @@ namespace Northwind
                         //req = "UPDATE Products SET ProductName = @prodname, UnitsInStock = @unit " +
                         //    "WHERE ProductID = @prodid";
 
-                        //for (int i = 0; i < listp.Count; i++) cmd.Parameters.Add(listp[i]);
+                        //for (int i = 0; i < listp.Count; i++) command.Parameters.Add(listp[i]);
 
                         #endregion
 
                         command = new SqlCommand(query, connection);
 
-                        // cmd.Parameters = param;
+                        // command.Parameters = param;
                         command.ExecuteNonQuery();
 
                         RefreshFormView(currenttable);
                         ClearTextboxes();
                     }
                     catch { MessageBox.Show("Test"); }
-                    // finally { connection.Close(); }
+                    // finally { Connection.Close(); }
                 }
                 // no input from the user
                 else { MessageBox.Show("Insert values first!"); }
@@ -678,7 +687,7 @@ namespace Northwind
                     valid = true;
                 }
                 catch { MessageBox.Show("Test"); }
-                //finally { connection.Close(); }
+                //finally { Connection.Close(); }
             }
             else // offline
             {
@@ -693,6 +702,7 @@ namespace Northwind
                 valid = false;
             }
         }
+        #endregion
 
         private void btnclear_Click(object sender, EventArgs e)
         {
@@ -707,11 +717,25 @@ namespace Northwind
 
             ClearTextboxes();
         }
-
+       
         private void btnconnsetings_Click(object sender, EventArgs e)
         {
+            ConfigForm config = new ConfigForm();
+            SqlConnection test = new SqlConnection();
+            
 
-            config.Show();
+            config.ShowDialog();
+            config.ConnectionSetup(test);
+            config.Dispose();
+            config.Close();
+            
+            // \
+
+            MessageBox.Show(test.ConnectionString);
+
+            // MessageBox.Show(connection.ConnectionString);
+
+            // config.Show();
 
             // BUG: How to get changes from a form?
 
@@ -720,15 +744,6 @@ namespace Northwind
              * what shall i do now! i miss C...
              * while (config.Flag) ;
              */
-
-            //conn.Connect
-            //    conn.ConnectionString = string.Format("data source = {0}; initial catalog = {1}; integrated security = {2}", 
-            //        config.DataSource,
-            //        config.InitialCatalog,
-            //        config.IntegratedSecurity);
-            //
-
-            // MessageBox.Show(config.DataSource + " " + config.InitialCatalog + " " + config.IntegratedSecurity);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -738,13 +753,23 @@ namespace Northwind
 
         private void btnfillform_Click(object sender, EventArgs e)
         {
-            FillForm f = new FillForm();
-            f.Show();
+            FillForm fform = new FillForm();
+            fform.ShowDialog();
+            fform.Dispose();
+
+
+            //f.Show();
+
         }
 
         private void mainDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            // nothing else matters... 
+        }
+
+        private void btnsend_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

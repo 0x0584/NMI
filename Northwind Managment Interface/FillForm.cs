@@ -11,47 +11,46 @@ namespace Northwind
 {
     public partial class FillForm : Form
     {
-        /* FillObject is the main object in the form, it's 
-         * the combination of a textbox and a lable.
+        /*
+         * FillObject is the main object in the form.
+         * it's the combination of a textbox and a lable.
          */
         struct FillObject
         {
-            /* This routine is to indicate the status of the 
-             * current element. it vary between two states:
-             *
-             *      + SHOW :: The object is displayed on the screen.
-             *      + HIDE :: The object is *not* displayed on the screen.
+            /*
+             * This routine is to indicate the status of the current element. it vary between
+             * two states, SHOWN (The object is displayed on the screen) and HIDDEN (The object 
+             * is *not* displayed on the screen).
              */
-            public enum ObjectStatus { SHOW = 0, HIDE = 1 }
+            public enum ObjectStatus { SHOWN = 0, HIDDEN = 1 }
 
             private TextBox txt;
             public TextBox Textbox { get { return txt; } set { txt = value; } }
-            
+
             private Label label;
             public Label Label { get { return label; } set { label = value; } }
-            
+
             private ObjectStatus status;
             public ObjectStatus Status { get { return status; } set { status = value; } }
         };
         FillObject[] fobject = new FillObject[18];
         //
-
+        
         List<Label> listlabel = new List<Label>();
         List<TextBox> listtextbox = new List<TextBox>();
 
-        public FillForm()
-        {
-            InitializeComponent();
-        }
+        public FillForm() { InitializeComponent(); }
 
         private void FillForm_Load(object sender, EventArgs e)
         {
             FillObjectSetup(fobject, listtextbox, listlabel);
 
-            for (int i = 0; i < 4; ++i) HandleFillObject(fobject, i, FillObject.ObjectStatus.SHOW);
+            // TODO: get the number of columns
+            //
 
-
-            //MessageBox.Show();
+            // display 4 fill objects
+            for (int i = 0; i < 8; ++i)
+                HandleFillObject(fobject, i, FillObject.ObjectStatus.SHOWN);
         }
 
         #region Setup a `FillObject` array (Using both the list of textboxes and labels)
@@ -123,20 +122,24 @@ namespace Northwind
             {
                 objectsrc[i].Textbox = listtextbox[i];
                 objectsrc[i].Label = listlabel[i];
-                objectsrc[i].Status = FillObject.ObjectStatus.HIDE; // Hidden by default.
+                objectsrc[i].Status = FillObject.ObjectStatus.HIDDEN; // Hidden by default.
             }
         }
         #endregion
 
+
+        #region Handle `FillObject` behavior
         private void HandleFillObject(FillObject[] source, int index, FillObject.ObjectStatus status)
         {
+            // Anyway, this is a comment. 
+            // (just in case you did not know what this thing is)
             switch ((source[index].Status = status))
             {
-                case FillObject.ObjectStatus.SHOW:
+                case FillObject.ObjectStatus.SHOWN:
                     source[index].Label.Show();
                     source[index].Textbox.Show();
                     break;
-                case FillObject.ObjectStatus.HIDE:
+                case FillObject.ObjectStatus.HIDDEN:
                     source[index].Label.Hide();
                     source[index].Textbox.Hide();
                     break;
@@ -144,6 +147,7 @@ namespace Northwind
                     break;
             }
         }
+        #endregion
 
     }
 }

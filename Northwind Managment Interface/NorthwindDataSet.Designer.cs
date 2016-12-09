@@ -26659,7 +26659,7 @@ namespace Northwind.NorthwindDataSetTableAdapters {
     
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -27076,7 +27076,7 @@ SELECT CategoryID, CategoryName, Description, Picture, LastEditDate, CreationDat
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -27403,7 +27403,7 @@ SELECT CategoryID, DeletionDate FROM Categories_Tombstone WHERE (CategoryID = @C
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -27812,7 +27812,7 @@ SELECT CustomerID, CustomerTypeID, LastEditDate, CreationDate FROM CustomerCusto
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -28189,7 +28189,7 @@ SELECT CustomerID, CustomerTypeID, DeletionDate FROM CustomerCustomerDemo_Tombst
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -28584,7 +28584,7 @@ SELECT CustomerTypeID, CustomerDesc, LastEditDate, CreationDate FROM CustomerDem
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -28931,7 +28931,7 @@ SELECT CustomerTypeID, DeletionDate FROM CustomerDemographics_Tombstone WHERE (C
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -29725,7 +29725,7 @@ SELECT CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -30072,7 +30072,7 @@ SELECT CustomerID, DeletionDate FROM Customers_Tombstone WHERE (CustomerID = @Cu
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -31132,7 +31132,7 @@ SELECT EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, BirthDate, HireD
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -31459,7 +31459,7 @@ SELECT EmployeeID, DeletionDate FROM Employees_Tombstone WHERE (EmployeeID = @Em
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -31848,7 +31848,7 @@ SELECT EmployeeID, TerritoryID, LastEditDate, CreationDate FROM EmployeeTerritor
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -32205,7 +32205,7 @@ SELECT EmployeeID, TerritoryID, DeletionDate FROM EmployeeTerritories_Tombstone 
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -32601,7 +32601,7 @@ SELECT OrderID, ProductID, UnitPrice, Quantity, Discount, LastEditDate, Creation
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -32936,7 +32936,7 @@ SELECT OrderID, ProductID, DeletionDate FROM [Order Details_Tombstone] WHERE (Or
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -33874,7 +33874,7 @@ SELECT OrderID, CustomerID, EmployeeID, OrderDate, RequiredDate, ShippedDate, Sh
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -34201,7 +34201,7 @@ SELECT OrderID, DeletionDate FROM Orders_Tombstone WHERE (OrderID = @OrderID)";
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -34909,7 +34909,7 @@ SELECT ProductID, ProductName, SupplierID, CategoryID, QuantityPerUnit, UnitPric
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -35236,7 +35236,7 @@ SELECT ProductID, DeletionDate FROM Products_Tombstone WHERE (ProductID = @Produ
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -35624,7 +35624,7 @@ SELECT RegionID, RegionDescription, LastEditDate, CreationDate FROM Region WHERE
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -35951,7 +35951,7 @@ SELECT RegionID, DeletionDate FROM Region_Tombstone WHERE (RegionID = @RegionID)
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -36373,7 +36373,7 @@ SELECT ShipperID, CompanyName, Phone, LastEditDate, CreationDate FROM Shippers W
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -36700,7 +36700,7 @@ SELECT ShipperID, DeletionDate FROM Shippers_Tombstone WHERE (ShipperID = @Shipp
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -37490,7 +37490,7 @@ SELECT SupplierID, CompanyName, ContactName, ContactTitle, Address, City, Region
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -37817,7 +37817,7 @@ SELECT SupplierID, DeletionDate FROM Suppliers_Tombstone WHERE (SupplierID = @Su
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -38235,7 +38235,7 @@ SELECT TerritoryID, TerritoryDescription, RegionID, LastEditDate, CreationDate F
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -38582,7 +38582,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -38761,7 +38761,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -38929,7 +38929,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -39097,7 +39097,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -39268,7 +39268,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -39460,7 +39460,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -39634,7 +39634,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -39802,7 +39802,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -39991,7 +39991,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -40160,7 +40160,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -40328,7 +40328,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -40500,7 +40500,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -40670,7 +40670,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -40841,7 +40841,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -41012,7 +41012,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -41181,7 +41181,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -41350,7 +41350,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -41532,7 +41532,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -41717,7 +41717,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -41901,7 +41901,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -42100,7 +42100,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -42297,7 +42297,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
@@ -42492,7 +42492,7 @@ SELECT TerritoryID, DeletionDate FROM Territories_Tombstone WHERE (TerritoryID =
     }
     
     /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
+    ///Represents the Connection and commands used to retrieve and save data.
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]

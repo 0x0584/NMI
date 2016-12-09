@@ -28,33 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtinit = new System.Windows.Forms.TextBox();
+            this.txtinteg = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.rdefault = new System.Windows.Forms.RadioButton();
+            this.rcustom = new System.Windows.Forms.RadioButton();
+            this.combdatasrc = new System.Windows.Forms.ComboBox();
+            this.btnconfirm = new System.Windows.Forms.Button();
+            this.btnshowdetails = new System.Windows.Forms.Button();
+            this.txtconntime = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // txtinit
             // 
-            this.textBox1.Location = new System.Drawing.Point(26, 108);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(166, 20);
-            this.textBox1.TabIndex = 0;
+            this.txtinit.Location = new System.Drawing.Point(26, 108);
+            this.txtinit.Name = "txtinit";
+            this.txtinit.Size = new System.Drawing.Size(166, 20);
+            this.txtinit.TabIndex = 0;
             // 
-            // textBox3
+            // txtinteg
             // 
-            this.textBox3.Location = new System.Drawing.Point(26, 32);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(166, 20);
-            this.textBox3.TabIndex = 0;
+            this.txtinteg.Location = new System.Drawing.Point(26, 32);
+            this.txtinteg.Name = "txtinteg";
+            this.txtinteg.Size = new System.Drawing.Size(166, 20);
+            this.txtinteg.TabIndex = 0;
             // 
             // label1
             // 
@@ -83,64 +83,64 @@
             this.label3.TabIndex = 1;
             this.label3.Text = "Integrated Security";
             // 
-            // radioButton1
+            // rdefault
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(25, 3);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(59, 17);
-            this.radioButton1.TabIndex = 2;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Default";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.rdefault.AutoSize = true;
+            this.rdefault.Location = new System.Drawing.Point(25, 3);
+            this.rdefault.Name = "rdefault";
+            this.rdefault.Size = new System.Drawing.Size(59, 17);
+            this.rdefault.TabIndex = 2;
+            this.rdefault.TabStop = true;
+            this.rdefault.Text = "Default";
+            this.rdefault.UseVisualStyleBackColor = true;
+            this.rdefault.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
-            // radioButton2
+            // rcustom
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(132, 3);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(60, 17);
-            this.radioButton2.TabIndex = 3;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Custom";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.rcustom.AutoSize = true;
+            this.rcustom.Location = new System.Drawing.Point(132, 3);
+            this.rcustom.Name = "rcustom";
+            this.rcustom.Size = new System.Drawing.Size(60, 17);
+            this.rcustom.TabIndex = 3;
+            this.rcustom.TabStop = true;
+            this.rcustom.Text = "Custom";
+            this.rcustom.UseVisualStyleBackColor = true;
+            this.rcustom.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // comboBox1
+            // combdatasrc
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(26, 71);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(167, 21);
-            this.comboBox1.TabIndex = 4;
+            this.combdatasrc.FormattingEnabled = true;
+            this.combdatasrc.Location = new System.Drawing.Point(26, 71);
+            this.combdatasrc.Name = "combdatasrc";
+            this.combdatasrc.Size = new System.Drawing.Size(167, 21);
+            this.combdatasrc.TabIndex = 4;
             // 
-            // button1
+            // btnconfirm
             // 
-            this.button1.Location = new System.Drawing.Point(176, 149);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 31);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Confirmer";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnconfirm.Location = new System.Drawing.Point(176, 149);
+            this.btnconfirm.Name = "btnconfirm";
+            this.btnconfirm.Size = new System.Drawing.Size(100, 31);
+            this.btnconfirm.TabIndex = 5;
+            this.btnconfirm.Text = "Confirmer";
+            this.btnconfirm.UseVisualStyleBackColor = true;
+            this.btnconfirm.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // btnshowdetails
             // 
-            this.button2.Location = new System.Drawing.Point(12, 157);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(31, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "+";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnshowdetails.Location = new System.Drawing.Point(12, 157);
+            this.btnshowdetails.Name = "btnshowdetails";
+            this.btnshowdetails.Size = new System.Drawing.Size(31, 23);
+            this.btnshowdetails.TabIndex = 6;
+            this.btnshowdetails.Text = "+";
+            this.btnshowdetails.UseVisualStyleBackColor = true;
+            this.btnshowdetails.Click += new System.EventHandler(this.button2_Click);
             // 
-            // textBox2
+            // txtconntime
             // 
-            this.textBox2.Location = new System.Drawing.Point(26, 217);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(167, 20);
-            this.textBox2.TabIndex = 7;
+            this.txtconntime.Location = new System.Drawing.Point(26, 217);
+            this.txtconntime.Name = "txtconntime";
+            this.txtconntime.Size = new System.Drawing.Size(167, 20);
+            this.txtconntime.TabIndex = 7;
             // 
             // label4
             // 
@@ -157,20 +157,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 191);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.txtconntime);
+            this.Controls.Add(this.btnshowdetails);
+            this.Controls.Add(this.btnconfirm);
+            this.Controls.Add(this.combdatasrc);
+            this.Controls.Add(this.rcustom);
+            this.Controls.Add(this.rdefault);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtinteg);
+            this.Controls.Add(this.txtinit);
             this.Name = "ConfigForm";
             this.Text = "Configure The Connection";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.Load += new System.EventHandler(this.ConfigForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,17 +178,17 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtinit;
+        private System.Windows.Forms.TextBox txtinteg;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.RadioButton rdefault;
+        private System.Windows.Forms.RadioButton rcustom;
+        private System.Windows.Forms.ComboBox combdatasrc;
+        private System.Windows.Forms.Button btnconfirm;
+        private System.Windows.Forms.Button btnshowdetails;
+        private System.Windows.Forms.TextBox txtconntime;
         private System.Windows.Forms.Label label4;
     }
 }

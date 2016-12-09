@@ -16,57 +16,23 @@ namespace Northwind
         public ConfigForm() { InitializeComponent(); }
 
         //
-        string dataSource = "";
-        public string DataSource
-        {
-            get { return dataSource; }
-            set { dataSource = value; }
-        }
-
-        string initialCatalog = "";
-        public string InitialCatalog
-        {
-            get { return initialCatalog; }
-            set { initialCatalog = value; }
-        }
-
-        string integratedSecurity = "";
-        public string IntegratedSecurity
-        {
-            get { return integratedSecurity; }
-            set { integratedSecurity = value; }
-        }
-
+        string dataSource, initialCatalog, integratedSecurity;
         int connectionTimeout;
-        public int ConnectionTimeout
-        {
-            get { return connectionTimeout; }
-            set { connectionTimeout = value; }
-        }
         //
 
-        bool flag;
-        public bool Flag
+        bool isfullform;
+
+        private void ConfigForm_Load(object sender, EventArgs e)
         {
-            get { return flag; }
-            set { flag = value; }
-        }
-        //
+            dataSource = initialCatalog = integratedSecurity = string.Empty;
 
-        bool tst;
+            txtinit.Text = "(local)";
+            txtinteg.Text = "YES";
+            txtconntime.Text = "0";
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            textBox1.Text = "(local)";
-            textBox1.Enabled = false;
+            txtinit.Enabled = txtconntime.Enabled = txtinteg.Enabled = false;
 
-            textBox3.Text = "YES";
-            textBox3.Enabled = false;
-
-            textBox2.Text = "-1";
-            textBox2.Enabled = false;
-
-            radioButton1.Checked = true;
+            rdefault.Checked = true;
 
             try
             {
@@ -80,85 +46,87 @@ namespace Northwind
                     "GROUP BY s_mf.database_id" +
                     "ORDER BY 1";
 
-                SqlCommand cmd = new SqlCommand(req, cnnmaster);
-                SqlDataReader rd = cmd.ExecuteReader();
+                SqlCommand command = new SqlCommand(req, cnnmaster);
+                SqlDataReader reader = command.ExecuteReader();
 
-                while (rd.Read()) comboBox1.Items.Add(rd["Name"]);
-                comboBox1.Text = comboBox1.Items[0].ToString();
+                while (reader.Read()) combdatasrc.Items.Add(reader["Name"]);
+                combdatasrc.Text = combdatasrc.Items[0].ToString();
             }
-            catch
-            {
-                MessageBox.Show("Test");
-            }
-            //comboBox1.Items.Add("Northwind");
+            catch { MessageBox.Show("Can't fitch"); }
 
+            combdatasrc.Items.Add("Northwind");
+            
+            dataSource = initialCatalog = integratedSecurity = string.Empty;
+            connectionTimeout = 0;
 
-            dataSource = "";
-            initialCatalog = "";
-            integratedSecurity = "";
-            connectionTimeout = -1;
+            isfullform = true;
 
-            flag = true;
-            tst = true;
-
-            button2.Hide();
+            btnshowdetails.Hide();
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            textBox1.Text = "";
-            textBox1.Enabled = true;
+            txtinit.Text = txtinteg.Text = string.Empty;
+            txtconntime.Text = "0";
+            txtinit.Enabled = txtconntime.Enabled = txtinteg.Enabled = true;
 
-            textBox3.Text = "";
-            textBox3.Enabled = true;
-
-            textBox2.Text = "";
-            textBox2.Enabled = true;
-
-            button2.Show();
+            btnshowdetails.Show();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            textBox1.Text = "(local)";
-            textBox1.Enabled = false;
+            txtinit.Text = "(local)";
+            txtinteg.Text = "YES";
+            txtconntime.Text = "0";
 
-            textBox3.Text = "YES";
-            textBox3.Enabled = false;
-
-            textBox2.Text = "-1";
-            textBox2.Enabled = false;
-
-            button2.Hide();
+            txtinit.Enabled = txtconntime.Enabled = txtinteg.Enabled = false;
+            
+            btnshowdetails.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            flag = false;
-            dataSource = textBox1.Text;
-            initialCatalog = comboBox1.Text;
-            integratedSecurity = textBox3.Text;
-            connectionTimeout = int.Parse(textBox2.Text);
-            this.Close();
-            // MessageBox.Show(DataSource + " " + InitialCatalog + " " + IntegratedSecurity);
+            // TODO: pass the connection string to the `MainFrom`
+            //
+
+            dataSource = txtinit.Text;
+            initialCatalog = combdatasrc.Text;
+            integratedSecurity = txtinteg.Text;
+            connectionTimeout = int.Parse(txtconntime.Text);
+
+            
+            MessageBox.Show(dataSource + " " + initialCatalog + " " + integratedSecurity);
+            
+            // ConnectionSetup(); // <--- the MainForm connection should be here somehow...
+            // Solved!
+
+
+
+            //this.Close();
+            this.Hide();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (tst)
+            if (isfullform)
             {
                 this.Height = 270;
-                button2.Text = "-";
-                tst = false;
+                btnshowdetails.Text = "-";
+                isfullform = false;
             }
             else
             {
                 this.Height = 218;
-                button2.Text = "+";
-                tst = true;
+                btnshowdetails.Text = "+";
+                isfullform = true;
             }
         }
 
+        public void ConnectionSetup(SqlConnection connection)
+        {
+            connection.ConnectionString = string.Format("data source = {0}; initial catalog = {1}; integrated security = {2}",
+                dataSource, initialCatalog, integratedSecurity); 
+        }
         //END OF CLASS
     }
 }

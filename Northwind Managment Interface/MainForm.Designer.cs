@@ -237,6 +237,7 @@
             this.btnsend.TabIndex = 16;
             this.btnsend.Text = "Send to the server";
             this.btnsend.UseVisualStyleBackColor = true;
+            this.btnsend.Click += new System.EventHandler(this.btnsend_Click);
             // 
             // label5
             // 
