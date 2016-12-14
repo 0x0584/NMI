@@ -35,12 +35,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.rdefault = new System.Windows.Forms.RadioButton();
             this.rcustom = new System.Windows.Forms.RadioButton();
-            this.combdatasrc = new System.Windows.Forms.ComboBox();
+            this.combodatasrc = new System.Windows.Forms.ComboBox();
             this.btnconfirm = new System.Windows.Forms.Button();
             this.btnshowdetails = new System.Windows.Forms.Button();
             this.txtconntime = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btndimiss = new System.Windows.Forms.Button();
+            this.comboSQLInst = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtinit
@@ -111,13 +113,13 @@
             this.rcustom.UseVisualStyleBackColor = true;
             this.rcustom.CheckedChanged += new System.EventHandler(this.rcustom_CheckedChanged);
             // 
-            // combdatasrc
+            // combodatasrc
             // 
-            this.combdatasrc.FormattingEnabled = true;
-            this.combdatasrc.Location = new System.Drawing.Point(26, 66);
-            this.combdatasrc.Name = "combdatasrc";
-            this.combdatasrc.Size = new System.Drawing.Size(167, 21);
-            this.combdatasrc.TabIndex = 4;
+            this.combodatasrc.FormattingEnabled = true;
+            this.combodatasrc.Location = new System.Drawing.Point(26, 66);
+            this.combodatasrc.Name = "combodatasrc";
+            this.combodatasrc.Size = new System.Drawing.Size(167, 21);
+            this.combodatasrc.TabIndex = 4;
             // 
             // btnconfirm
             // 
@@ -127,7 +129,7 @@
             this.btnconfirm.TabIndex = 5;
             this.btnconfirm.Text = "Confirmer";
             this.btnconfirm.UseVisualStyleBackColor = true;
-            this.btnconfirm.Click += new System.EventHandler(this.button1_Click);
+            this.btnconfirm.Click += new System.EventHandler(this.btnconfirm_Click);
             // 
             // btnshowdetails
             // 
@@ -137,11 +139,11 @@
             this.btnshowdetails.TabIndex = 6;
             this.btnshowdetails.Text = "+";
             this.btnshowdetails.UseVisualStyleBackColor = true;
-            this.btnshowdetails.Click += new System.EventHandler(this.button2_Click);
+            this.btnshowdetails.Click += new System.EventHandler(this.btnshowdetails_Click);
             // 
             // txtconntime
             // 
-            this.txtconntime.Location = new System.Drawing.Point(26, 217);
+            this.txtconntime.Location = new System.Drawing.Point(24, 189);
             this.txtconntime.Name = "txtconntime";
             this.txtconntime.Size = new System.Drawing.Size(167, 20);
             this.txtconntime.TabIndex = 7;
@@ -149,32 +151,52 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(224, 220);
+            this.label4.Location = new System.Drawing.Point(222, 192);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "Timeout";
             // 
-            // button1
+            // btndimiss
             // 
-            this.button1.Location = new System.Drawing.Point(66, 139);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 31);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btndimiss.Location = new System.Drawing.Point(49, 139);
+            this.btndimiss.Name = "btndimiss";
+            this.btndimiss.Size = new System.Drawing.Size(111, 31);
+            this.btndimiss.TabIndex = 9;
+            this.btndimiss.Text = "Dimiss";
+            this.btndimiss.UseVisualStyleBackColor = true;
+            this.btndimiss.Click += new System.EventHandler(this.btndimiss_Click);
+            // 
+            // comboSQLInst
+            // 
+            this.comboSQLInst.FormattingEnabled = true;
+            this.comboSQLInst.Location = new System.Drawing.Point(23, 219);
+            this.comboSQLInst.Name = "comboSQLInst";
+            this.comboSQLInst.Size = new System.Drawing.Size(169, 21);
+            this.comboSQLInst.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(207, 219);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "local instances";
             // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 180);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(292, 177);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.comboSQLInst);
+            this.Controls.Add(this.btndimiss);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtconntime);
             this.Controls.Add(this.btnshowdetails);
             this.Controls.Add(this.btnconfirm);
-            this.Controls.Add(this.combdatasrc);
+            this.Controls.Add(this.combodatasrc);
             this.Controls.Add(this.rcustom);
             this.Controls.Add(this.rdefault);
             this.Controls.Add(this.label3);
@@ -184,6 +206,7 @@
             this.Controls.Add(this.txtinit);
             this.Name = "ConfigForm";
             this.Text = "Configure The Connection";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigForm_FormClosing);
             this.Load += new System.EventHandler(this.ConfigForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -199,11 +222,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rdefault;
         private System.Windows.Forms.RadioButton rcustom;
-        private System.Windows.Forms.ComboBox combdatasrc;
+        private System.Windows.Forms.ComboBox combodatasrc;
         private System.Windows.Forms.Button btnconfirm;
         private System.Windows.Forms.Button btnshowdetails;
         private System.Windows.Forms.TextBox txtconntime;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btndimiss;
+        private System.Windows.Forms.ComboBox comboSQLInst;
+        private System.Windows.Forms.Label label5;
     }
 }
