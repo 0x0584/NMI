@@ -1,4 +1,3 @@
-C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.sdf
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.exe.config
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.exe
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.pdb
@@ -11,5 +10,12 @@ C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.exe.manifest
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.application
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind Managment Interface.csprojResolveAssemblyReference.cache
-C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.Form1.resources
-C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.Form2.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.Synchronization.Data.dll
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.Synchronization.Data.Server.dll
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.Synchronization.Data.SqlServerCe.dll
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\fr\Microsoft.Synchronization.Data.resources.dll
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind Managment Interface.csprojFakesResolveAssemblyReference.cache
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.FillForm.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.MainForm.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.ConfigForm.resources

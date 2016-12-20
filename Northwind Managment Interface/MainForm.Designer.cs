@@ -1,6 +1,6 @@
 ﻿namespace Northwind
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listbox = new System.Windows.Forms.ListBox();
             this.btnadd = new System.Windows.Forms.Button();
             this.tbname = new System.Windows.Forms.TextBox();
             this.tbdesc = new System.Windows.Forms.TextBox();
@@ -40,27 +39,24 @@
             this.roffline = new System.Windows.Forms.RadioButton();
             this.ronline = new System.Windows.Forms.RadioButton();
             this.btnconnsetings = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.combotables = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.mainDataGrid = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
+            this.lblrecords = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnfillform = new System.Windows.Forms.Button();
+            this.btnsend = new System.Windows.Forms.Button();
+            this.btntest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
-            // listbox
-            // 
-            this.listbox.FormattingEnabled = true;
-            this.listbox.Location = new System.Drawing.Point(12, 10);
-            this.listbox.Name = "listbox";
-            this.listbox.Size = new System.Drawing.Size(376, 212);
-            this.listbox.TabIndex = 1;
-            // 
             // btnadd
             // 
-            this.btnadd.Location = new System.Drawing.Point(610, 39);
+            this.btnadd.Location = new System.Drawing.Point(2, 76);
             this.btnadd.Name = "btnadd";
             this.btnadd.Size = new System.Drawing.Size(75, 23);
             this.btnadd.TabIndex = 2;
@@ -70,21 +66,21 @@
             // 
             // tbname
             // 
-            this.tbname.Location = new System.Drawing.Point(457, 42);
+            this.tbname.Location = new System.Drawing.Point(59, 10);
             this.tbname.Name = "tbname";
             this.tbname.Size = new System.Drawing.Size(146, 20);
             this.tbname.TabIndex = 3;
             // 
             // tbdesc
             // 
-            this.tbdesc.Location = new System.Drawing.Point(457, 77);
+            this.tbdesc.Location = new System.Drawing.Point(59, 45);
             this.tbdesc.Name = "tbdesc";
             this.tbdesc.Size = new System.Drawing.Size(146, 20);
             this.tbdesc.TabIndex = 4;
             // 
             // btnsearch
             // 
-            this.btnsearch.Location = new System.Drawing.Point(610, 10);
+            this.btnsearch.Location = new System.Drawing.Point(609, 12);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(75, 23);
             this.btnsearch.TabIndex = 5;
@@ -94,14 +90,14 @@
             // 
             // tbid
             // 
-            this.tbid.Location = new System.Drawing.Point(457, 10);
+            this.tbid.Location = new System.Drawing.Point(446, 14);
             this.tbid.Name = "tbid";
             this.tbid.Size = new System.Drawing.Size(146, 20);
             this.tbid.TabIndex = 6;
             // 
             // btnupdate
             // 
-            this.btnupdate.Location = new System.Drawing.Point(610, 68);
+            this.btnupdate.Location = new System.Drawing.Point(192, 76);
             this.btnupdate.Name = "btnupdate";
             this.btnupdate.Size = new System.Drawing.Size(75, 23);
             this.btnupdate.TabIndex = 7;
@@ -111,7 +107,7 @@
             // 
             // btndelete
             // 
-            this.btndelete.Location = new System.Drawing.Point(610, 97);
+            this.btndelete.Location = new System.Drawing.Point(94, 76);
             this.btndelete.Name = "btndelete";
             this.btndelete.Size = new System.Drawing.Size(75, 23);
             this.btndelete.TabIndex = 8;
@@ -121,7 +117,7 @@
             // 
             // btnclear
             // 
-            this.btnclear.Location = new System.Drawing.Point(528, 165);
+            this.btnclear.Location = new System.Drawing.Point(527, 100);
             this.btnclear.Name = "btnclear";
             this.btnclear.Size = new System.Drawing.Size(75, 23);
             this.btnclear.TabIndex = 9;
@@ -132,9 +128,10 @@
             // roffline
             // 
             this.roffline.AutoSize = true;
-            this.roffline.Location = new System.Drawing.Point(619, 194);
+            this.roffline.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.roffline.Location = new System.Drawing.Point(307, 72);
             this.roffline.Name = "roffline";
-            this.roffline.Size = new System.Drawing.Size(55, 17);
+            this.roffline.Size = new System.Drawing.Size(54, 17);
             this.roffline.TabIndex = 10;
             this.roffline.TabStop = true;
             this.roffline.Text = "Offline";
@@ -144,9 +141,10 @@
             // ronline
             // 
             this.ronline.AutoSize = true;
-            this.ronline.Location = new System.Drawing.Point(619, 171);
+            this.ronline.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ronline.Location = new System.Drawing.Point(307, 51);
             this.ronline.Name = "ronline";
-            this.ronline.Size = new System.Drawing.Size(55, 17);
+            this.ronline.Size = new System.Drawing.Size(54, 17);
             this.ronline.TabIndex = 10;
             this.ronline.TabStop = true;
             this.ronline.Text = "Online";
@@ -155,7 +153,7 @@
             // 
             // btnconnsetings
             // 
-            this.btnconnsetings.Location = new System.Drawing.Point(415, 161);
+            this.btnconnsetings.Location = new System.Drawing.Point(393, 53);
             this.btnconnsetings.Name = "btnconnsetings";
             this.btnconnsetings.Size = new System.Drawing.Size(91, 36);
             this.btnconnsetings.TabIndex = 11;
@@ -163,18 +161,19 @@
             this.btnconnsetings.UseVisualStyleBackColor = true;
             this.btnconnsetings.Click += new System.EventHandler(this.btnconnsetings_Click);
             // 
-            // comboBox1
+            // combotables
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(457, 113);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(146, 21);
-            this.comboBox1.TabIndex = 12;
+            this.combotables.FormattingEnabled = true;
+            this.combotables.Location = new System.Drawing.Point(257, 105);
+            this.combotables.Name = "combotables";
+            this.combotables.Size = new System.Drawing.Size(193, 21);
+            this.combotables.TabIndex = 12;
+            this.combotables.SelectedIndexChanged += new System.EventHandler(this.combotables_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(407, 10);
+            this.label1.Location = new System.Drawing.Point(425, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(15, 13);
             this.label1.TabIndex = 13;
@@ -183,7 +182,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(407, 45);
+            this.label2.Location = new System.Drawing.Point(9, 13);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 13;
@@ -192,7 +191,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(407, 77);
+            this.label3.Location = new System.Drawing.Point(9, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 13;
@@ -201,43 +200,99 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(407, 116);
+            this.label4.Location = new System.Drawing.Point(583, 402);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(57, 13);
             this.label4.TabIndex = 13;
-            this.label4.Text = "label1";
+            this.label4.Text = "# Records";
             // 
             // mainDataGrid
             // 
             this.mainDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.mainDataGrid.Location = new System.Drawing.Point(12, 235);
+            this.mainDataGrid.Location = new System.Drawing.Point(12, 137);
             this.mainDataGrid.Name = "mainDataGrid";
-            this.mainDataGrid.Size = new System.Drawing.Size(672, 257);
+            this.mainDataGrid.Size = new System.Drawing.Size(672, 252);
             this.mainDataGrid.TabIndex = 14;
+            this.mainDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellClick);
             // 
-            // button2
+            // lblrecords
             // 
-            this.button2.Location = new System.Drawing.Point(468, 204);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.lblrecords.AutoSize = true;
+            this.lblrecords.Location = new System.Drawing.Point(646, 402);
+            this.lblrecords.Name = "lblrecords";
+            this.lblrecords.Size = new System.Drawing.Size(0, 13);
+            this.lblrecords.TabIndex = 15;
             // 
-            // Form1
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label5.Location = new System.Drawing.Point(537, 398);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(16, 17);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "+";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Maroon;
+            this.label6.Location = new System.Drawing.Point(503, 398);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 17);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "-";
+            // 
+            // btnfillform
+            // 
+            this.btnfillform.Location = new System.Drawing.Point(253, 7);
+            this.btnfillform.Name = "btnfillform";
+            this.btnfillform.Size = new System.Drawing.Size(75, 23);
+            this.btnfillform.TabIndex = 18;
+            this.btnfillform.Text = "add using form";
+            this.btnfillform.UseVisualStyleBackColor = true;
+            this.btnfillform.Click += new System.EventHandler(this.btnfillform_Click);
+            // 
+            // btnsend
+            // 
+            this.btnsend.Location = new System.Drawing.Point(609, 40);
+            this.btnsend.Name = "btnsend";
+            this.btnsend.Size = new System.Drawing.Size(75, 40);
+            this.btnsend.TabIndex = 16;
+            this.btnsend.Text = "Send to the server";
+            this.btnsend.UseVisualStyleBackColor = true;
+            this.btnsend.Click += new System.EventHandler(this.btnsend_Click);
+            // 
+            // btntest
+            // 
+            this.btntest.Location = new System.Drawing.Point(344, 14);
+            this.btntest.Name = "btntest";
+            this.btntest.Size = new System.Drawing.Size(75, 23);
+            this.btntest.TabIndex = 19;
+            this.btntest.Text = "Test";
+            this.btntest.UseVisualStyleBackColor = true;
+            this.btntest.Click += new System.EventHandler(this.btntest_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(696, 504);
-            this.Controls.Add(this.button2);
+            this.ClientSize = new System.Drawing.Size(696, 424);
+            this.Controls.Add(this.btntest);
+            this.Controls.Add(this.btnfillform);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.btnsend);
+            this.Controls.Add(this.lblrecords);
             this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.combotables);
             this.Controls.Add(this.btnconnsetings);
             this.Controls.Add(this.ronline);
             this.Controls.Add(this.roffline);
@@ -249,8 +304,7 @@
             this.Controls.Add(this.tbdesc);
             this.Controls.Add(this.tbname);
             this.Controls.Add(this.btnadd);
-            this.Controls.Add(this.listbox);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -262,7 +316,6 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listbox;
         private System.Windows.Forms.Button btnadd;
         private System.Windows.Forms.TextBox tbname;
         private System.Windows.Forms.TextBox tbdesc;
@@ -274,13 +327,19 @@
         private System.Windows.Forms.RadioButton roffline;
         private System.Windows.Forms.RadioButton ronline;
         private System.Windows.Forms.Button btnconnsetings;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox combotables;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView mainDataGrid;
-        private System.Windows.Forms.Button button2;
+        //private NorthwindDataSet northwindDataSet;
+        private System.Windows.Forms.Label lblrecords;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnfillform;
+        private System.Windows.Forms.Button btnsend;
+        private System.Windows.Forms.Button btntest;
     }
 }
 
