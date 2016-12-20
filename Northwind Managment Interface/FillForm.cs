@@ -6,19 +6,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Data.SqlClient;
 namespace Northwind
 {
     public partial class FillForm : Form
     {
-        /*
-         * FillObject is the main object in the form.
+        /* FillObject is the main object in the form.
          * it's the combination of a textbox and a lable.
          */
         struct FillObject
         {
-            /*
-             * This routine is to indicate the status of the current element. it vary between
+            /* This routine is to indicate the status of the current element. it vary between
              * two states, SHOWN (The object is displayed on the screen) and HIDDEN (The object 
              * is *not* displayed on the screen).
              */
@@ -35,9 +33,11 @@ namespace Northwind
         };
         FillObject[] fobject = new FillObject[18];
         //
-        
+
         List<Label> listlabel = new List<Label>();
         List<TextBox> listtextbox = new List<TextBox>();
+
+        SqlConnection con;
 
         public FillForm() { InitializeComponent(); }
 
@@ -46,11 +46,7 @@ namespace Northwind
             FillObjectSetup(fobject, listtextbox, listlabel);
 
             // TODO: get the number of columns
-            //
-
-            // display 4 fill objects
-            for (int i = 0; i < 8; ++i)
-                HandleFillObject(fobject, i, FillObject.ObjectStatus.SHOWN);
+            // $ 
         }
 
         #region Setup a `FillObject` array (Using both the list of textboxes and labels)
@@ -118,6 +114,7 @@ namespace Northwind
             ListTextBoxSetup(listtextboxsrc);
             ListLabelSetup(listlabelsrc);
 
+
             for (int i = 0; i < objectsrc.Length; ++i)
             {
                 objectsrc[i].Textbox = listtextbox[i];
@@ -129,25 +126,47 @@ namespace Northwind
 
 
         #region Handle `FillObject` behavior
-        private void HandleFillObject(FillObject[] source, int index, FillObject.ObjectStatus status)
+        private void HandleFillObject(FillObject[] source, int colnumber, FillObject.ObjectStatus status)
         {
             // Anyway, this is a comment. 
             // (just in case you did not know what this thing is)
-            switch ((source[index].Status = status))
+
+            for (int i = 0; i < colnumber; i++)
             {
-                case FillObject.ObjectStatus.SHOWN:
-                    source[index].Label.Show();
-                    source[index].Textbox.Show();
-                    break;
-                case FillObject.ObjectStatus.HIDDEN:
-                    source[index].Label.Hide();
-                    source[index].Textbox.Hide();
-                    break;
-                default:
-                    break;
+                switch ((source[i].Status = status))
+                {
+                    case FillObject.ObjectStatus.SHOWN:
+                        source[i].Label.Show();
+                        source[i].Textbox.Show();
+                        break;
+                    case FillObject.ObjectStatus.HIDDEN:
+                        source[i].Label.Hide();
+                        source[i].Textbox.Hide();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+
         #endregion
+
+        public void SetupConnection(SqlConnection input)
+        {
+
+            if (input.State == ConnectionState.Closed) input.Open();
+
+            string query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.Column WHERE TABLE_NAME = 'Orders'";
+            SqlCommand cmd = new SqlCommand(query, con);
+            int colnumber = (int) cmd.ExecuteScalar();
+
+            HandleFillObject(fobject, colnumber, FillObject.ObjectStatus.SHOWN);
+        }
+
+        private void btndimiss_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
     }
 }

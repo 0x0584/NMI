@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Data.Sql; // SqlDataSourceEnumerator, 
+using System.Data.SqlTypes;
+//
+//using EnumerateSQLServers;
+//using Moletrator.SQLDocumentor;
+//using Microsoft.SqlServer.Server;
 
 namespace Northwind
 {
@@ -18,25 +24,21 @@ namespace Northwind
         }
 
 
+        DataSet Northwind;
+
+        #region SQL-related variabels 
         SqlConnection connection;
-
-        public SqlConnection Connection
-        {
-            get { return connection; }
-            set { connection = value; }
-        }
-
         SqlCommand command;
         SqlDataReader reader;
         SqlDataAdapter adapter;
+        #endregion
+
         string connstring = "data source = (local); initial catalog = Northwind;" +
             "integrated security = yes";
         string query;
 
-        DataSet Northwind;
-
-        /*
-         * when the program starts for the first time, `firstrun` is initialized as true.
+        #region Verification variables
+        /* when the program starts for the first time, `firstrun` is initialized as true.
          * this routine is used to avoid missing with the initial setup (which is done by 
          * calling `Form_Load()`). 
          */
@@ -45,52 +47,28 @@ namespace Northwind
         // `isonline`, is a bool which indicates the Connection state.
         bool isonline;
 
-        /* 
-         * this routine is used to avoid the creation of multiple versions of table 
+        /* this routine is used to avoid the creation of multiple versions of table 
          * in `Northwind`. 
          */
         bool[] iscreated = new bool[10];
 
+        /* indicates the current in-use table */
         string currenttable;
 
+        /* indicates whether the opertation terminates with success or failure */
+        bool isvalidated = false;
+        #endregion
+
+        /* track the number of updates on then table, which are either adding data 
+         or removing data */
+        
         int addedrows, removedrows;
 
-        bool valid = false;
+        // TODO: find a way to track also updated data
+        //
 
+        #region Propre methods
         private string ToSqlstring(string str) { return "[" + str + "]"; }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            connection = new SqlConnection(connstring);
-            Northwind = new DataSet("Northwind");
-
-            // init
-            connection.Open();
-            isonline = true;
-            ronline.Checked = true;
-            ronline.Enabled = false;
-            // tini
-
-            tbdesc.Text = tbname.Text = string.Empty;
-            //
-
-            SetupComboBox(comboBox1);
-
-            for (int i = 0; i < 10; i++) iscreated[i] = false;
-
-            SetupDataGridViewColumns(mainDataGrid);
-
-            RefreshFormView(currenttable);
-
-            btnsend.Hide();
-
-            label5.Text = label6.Text = string.Empty;
-
-            addedrows = removedrows = 0;
-
-            firstrun = false;  // end of the `firstrun`.
-
-        }
 
         private int getindex(string table)
         {
@@ -106,7 +84,43 @@ namespace Northwind
             else if (table == "Territories") return 9;
             else return -1;
         }
+        #endregion
 
+        #region Form related methods
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            connection = new SqlConnection(connstring);
+            Northwind = new DataSet("Northwind");
+
+            connection.Open();
+
+            // init 
+            isonline = true;
+            ronline.Checked = true;
+            ronline.Enabled = false;
+            // tini
+
+            tbdesc.Text = tbname.Text = string.Empty;
+            //
+
+            SetupComboBox(combotables);
+
+            for (int i = 0; i < 10; i++) iscreated[i] = false;
+
+            SetupDataGridViewColumns(mainDataGrid);
+
+            RefreshFormView(currenttable);
+
+            // this button is to confirm changes while  offline
+            btnsend.Hide();
+
+            label5.Text = label6.Text = string.Empty;
+
+            addedrows = removedrows = 0;
+
+            firstrun = false;  // end of the `firstrun`.
+        }
+        
         private void RefreshFormView(string table)
         {
             int index;
@@ -157,6 +171,7 @@ namespace Northwind
                 }
             }
         }
+        #endregion
 
         #region Setup and manipulate DataGridView, TextBoxes and ComboBoxes
 
@@ -172,7 +187,12 @@ namespace Northwind
             source.Items.Add("Shippers");
             source.Items.Add("Suppliers");
             source.Items.Add("Territories");
-            comboBox1.Text = currenttable = comboBox1.Items[0].ToString();
+            combotables.Text = currenttable = combotables.Items[0].ToString();
+        }
+
+        private void combotables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!firstrun) RefreshFormView((currenttable = combotables.Text));
         }
 
         private void SetupDataGridViewRows(DataGridView source, SqlDataReader reader)
@@ -491,6 +511,11 @@ namespace Northwind
 
         private void ClearDataGridViewColumns(DataGridView foo) { foo.Columns.Clear(); }
 
+        private void mainDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // nothing else matters... 
+        }
+
         private void ClearTextboxes() { tbname.Text = tbdesc.Text = tbid.Text = string.Empty; }
 
         #endregion
@@ -527,7 +552,7 @@ namespace Northwind
         }
         #endregion
 
-        #region Create Delete Update Search
+        #region Buttons: Create Delete Update Search
         private void btnadd_Click(object sender, EventArgs e)
         {
             query = "INSERT INTO Categories(CategoryName, Description)" +
@@ -544,7 +569,7 @@ namespace Northwind
                         command.ExecuteNonQuery();
                         RefreshFormView(currenttable);
                         ClearTextboxes();
-                        valid = true;
+                        isvalidated = true;
                     }
                     catch { MessageBox.Show("error while add online"); }
                 }
@@ -554,6 +579,7 @@ namespace Northwind
             {
                 // (this is a bug, i don't understand why the datarow is not working)
                 // TODO: this problem shall be solved as soon as possible.
+                // 
                 try
                 {
                     DataRow dr = Northwind.Tables[currenttable].NewRow();
@@ -561,19 +587,16 @@ namespace Northwind
                     dr[1] = tbdesc.Text;
                     Northwind.Tables[currenttable].Rows.Add(dr);
 
-                    valid = true;
+                    isvalidated = true;
                 }
-                catch
-                {
-                    MessageBox.Show("Test");
-                }
+                catch { MessageBox.Show("error while load offline"); }
             }
 
-            if (valid)
+            if (isvalidated)
             {
                 ++addedrows;
                 label5.Text = "+ " + addedrows.ToString();
-                valid = false;
+                isvalidated = false;
             }
         }
 
@@ -608,7 +631,7 @@ namespace Northwind
             }
             else
             {
-
+                //
             }
         }
 
@@ -684,7 +707,7 @@ namespace Northwind
                     command.ExecuteNonQuery();
                     RefreshFormView(currenttable);
                     ClearTextboxes();
-                    valid = true;
+                    isvalidated = true;
                 }
                 catch { MessageBox.Show("Test"); }
                 //finally { Connection.Close(); }
@@ -692,14 +715,14 @@ namespace Northwind
             else // offline
             {
 
-                valid = true;
+                isvalidated = true;
             }
 
-            if (valid)
+            if (isvalidated)
             {
                 ++removedrows;
                 label6.Text = "- " + removedrows.ToString();
-                valid = false;
+                isvalidated = false;
             }
         }
         #endregion
@@ -717,43 +740,40 @@ namespace Northwind
 
             ClearTextboxes();
         }
-       
+
         private void btnconnsetings_Click(object sender, EventArgs e)
         {
             ConfigForm config = new ConfigForm();
-            SqlConnection test = new SqlConnection();
-            
+
+            string backup = connection.ConnectionString;
 
             config.ShowDialog();
-            config.ConnectionSetup(test);
+
+            if (connection.State == ConnectionState.Open) connection.Close();
+
+            config.ConnectionSetup(connection);
+
+            if (connection.State == ConnectionState.Closed)
+                try { connection.Open(); }
+                catch
+                {
+                    MessageBox.Show("Make sure to fill the informations correctly, the settings will be reverted to the last stalbe state");
+                    connection.ConnectionString = backup;
+                    connection.Open();
+                }
+
+
             config.Dispose();
             config.Close();
-            
-            // \
 
-            MessageBox.Show(test.ConnectionString);
-
-            // MessageBox.Show(connection.ConnectionString);
-
-            // config.Show();
-
-            // BUG: How to get changes from a form?
-
-            /* the while-trick is not working as expected!
-             * 
-             * what shall i do now! i miss C...
-             * while (config.Flag) ;
-             */
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!firstrun) RefreshFormView((currenttable = comboBox1.Text));
         }
 
         private void btnfillform_Click(object sender, EventArgs e)
         {
             FillForm fform = new FillForm();
+
+            fform.SetupConnection(connection);
+
             fform.ShowDialog();
             fform.Dispose();
 
@@ -762,14 +782,19 @@ namespace Northwind
 
         }
 
-        private void mainDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // nothing else matters... 
-        }
-
         private void btnsend_Click(object sender, EventArgs e)
         {
+            // i really don't remember what i was trying to do when
+            // if first think of this... 
+            // UPDATE: this button is to confirm changes made while offline-mode
+        }
 
+        private void btntest_Click(object sender, EventArgs e)
+        {
+            // I
+            //
+
+            
         }
     }
 }
