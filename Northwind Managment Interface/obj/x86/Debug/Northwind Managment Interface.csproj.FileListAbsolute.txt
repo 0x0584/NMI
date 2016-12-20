@@ -19,3 +19,5 @@ C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.FillForm.resources
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.MainForm.resources
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.ConfigForm.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.LoginForm.resources
+C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.Message.resources

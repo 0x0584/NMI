@@ -124,7 +124,6 @@ namespace Northwind
         }
         #endregion
 
-
         #region Handle `FillObject` behavior
         private void HandleFillObject(FillObject[] source, int colnumber, FillObject.ObjectStatus status)
         {
@@ -166,6 +165,11 @@ namespace Northwind
         private void btndimiss_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnconfirm_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

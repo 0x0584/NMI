@@ -28,60 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtinit = new System.Windows.Forms.TextBox();
-            this.txtinteg = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.rdefault = new System.Windows.Forms.RadioButton();
             this.rcustom = new System.Windows.Forms.RadioButton();
-            this.combodatasrc = new System.Windows.Forms.ComboBox();
             this.btnconfirm = new System.Windows.Forms.Button();
-            this.btnshowdetails = new System.Windows.Forms.Button();
             this.txtconntime = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btndimiss = new System.Windows.Forms.Button();
             this.comboSQLInst = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.txtuserid = new System.Windows.Forms.TextBox();
+            this.txtpassword = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.comboWinAuthn = new System.Windows.Forms.ComboBox();
+            this.lblwarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // txtinit
-            // 
-            this.txtinit.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.txtinit.Location = new System.Drawing.Point(25, 104);
-            this.txtinit.Name = "txtinit";
-            this.txtinit.Size = new System.Drawing.Size(166, 20);
-            this.txtinit.TabIndex = 0;
-            // 
-            // txtinteg
-            // 
-            this.txtinteg.Location = new System.Drawing.Point(26, 32);
-            this.txtinteg.Name = "txtinteg";
-            this.txtinteg.Size = new System.Drawing.Size(166, 20);
-            this.txtinteg.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(209, 66);
+            this.label1.Location = new System.Drawing.Point(199, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Data Source";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(206, 104);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Initial Catalog";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(198, 32);
+            this.label3.Location = new System.Drawing.Point(184, 118);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 13);
             this.label3.TabIndex = 1;
@@ -91,7 +66,7 @@
             // 
             this.rdefault.AutoSize = true;
             this.rdefault.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rdefault.Location = new System.Drawing.Point(25, 3);
+            this.rdefault.Location = new System.Drawing.Point(14, 54);
             this.rdefault.Name = "rdefault";
             this.rdefault.Size = new System.Drawing.Size(58, 17);
             this.rdefault.TabIndex = 2;
@@ -104,7 +79,7 @@
             // 
             this.rcustom.AutoSize = true;
             this.rcustom.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.rcustom.Location = new System.Drawing.Point(132, 3);
+            this.rcustom.Location = new System.Drawing.Point(121, 54);
             this.rcustom.Name = "rcustom";
             this.rcustom.Size = new System.Drawing.Size(59, 17);
             this.rcustom.TabIndex = 3;
@@ -113,37 +88,19 @@
             this.rcustom.UseVisualStyleBackColor = true;
             this.rcustom.CheckedChanged += new System.EventHandler(this.rcustom_CheckedChanged);
             // 
-            // combodatasrc
-            // 
-            this.combodatasrc.FormattingEnabled = true;
-            this.combodatasrc.Location = new System.Drawing.Point(26, 66);
-            this.combodatasrc.Name = "combodatasrc";
-            this.combodatasrc.Size = new System.Drawing.Size(167, 21);
-            this.combodatasrc.TabIndex = 4;
-            // 
             // btnconfirm
             // 
-            this.btnconfirm.Location = new System.Drawing.Point(176, 139);
+            this.btnconfirm.Location = new System.Drawing.Point(209, 40);
             this.btnconfirm.Name = "btnconfirm";
-            this.btnconfirm.Size = new System.Drawing.Size(100, 31);
+            this.btnconfirm.Size = new System.Drawing.Size(73, 31);
             this.btnconfirm.TabIndex = 5;
             this.btnconfirm.Text = "Confirmer";
             this.btnconfirm.UseVisualStyleBackColor = true;
             this.btnconfirm.Click += new System.EventHandler(this.btnconfirm_Click);
             // 
-            // btnshowdetails
-            // 
-            this.btnshowdetails.Location = new System.Drawing.Point(12, 147);
-            this.btnshowdetails.Name = "btnshowdetails";
-            this.btnshowdetails.Size = new System.Drawing.Size(31, 23);
-            this.btnshowdetails.TabIndex = 6;
-            this.btnshowdetails.Text = "+";
-            this.btnshowdetails.UseVisualStyleBackColor = true;
-            this.btnshowdetails.Click += new System.EventHandler(this.btnshowdetails_Click);
-            // 
             // txtconntime
             // 
-            this.txtconntime.Location = new System.Drawing.Point(24, 189);
+            this.txtconntime.Location = new System.Drawing.Point(12, 83);
             this.txtconntime.Name = "txtconntime";
             this.txtconntime.Size = new System.Drawing.Size(167, 20);
             this.txtconntime.TabIndex = 7;
@@ -151,59 +108,94 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(222, 192);
+            this.label4.Location = new System.Drawing.Point(210, 83);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "Timeout";
             // 
-            // btndimiss
-            // 
-            this.btndimiss.Location = new System.Drawing.Point(49, 139);
-            this.btndimiss.Name = "btndimiss";
-            this.btndimiss.Size = new System.Drawing.Size(111, 31);
-            this.btndimiss.TabIndex = 9;
-            this.btndimiss.Text = "Dimiss";
-            this.btndimiss.UseVisualStyleBackColor = true;
-            this.btndimiss.Click += new System.EventHandler(this.btndimiss_Click);
-            // 
             // comboSQLInst
             // 
             this.comboSQLInst.FormattingEnabled = true;
-            this.comboSQLInst.Location = new System.Drawing.Point(23, 219);
+            this.comboSQLInst.Location = new System.Drawing.Point(11, 6);
             this.comboSQLInst.Name = "comboSQLInst";
             this.comboSQLInst.Size = new System.Drawing.Size(169, 21);
             this.comboSQLInst.TabIndex = 10;
+            this.comboSQLInst.SelectedIndexChanged += new System.EventHandler(this.comboSQLInst_SelectedIndexChanged);
             // 
-            // label5
+            // txtuserid
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(207, 219);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "local instances";
+            this.txtuserid.Location = new System.Drawing.Point(11, 142);
+            this.txtuserid.Name = "txtuserid";
+            this.txtuserid.Size = new System.Drawing.Size(169, 20);
+            this.txtuserid.TabIndex = 12;
+            // 
+            // txtpassword
+            // 
+            this.txtpassword.Location = new System.Drawing.Point(11, 172);
+            this.txtpassword.Name = "txtpassword";
+            this.txtpassword.Size = new System.Drawing.Size(169, 20);
+            this.txtpassword.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(211, 149);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "User ID";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(206, 175);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "Password";
+            // 
+            // comboWinAuthn
+            // 
+            this.comboWinAuthn.FormattingEnabled = true;
+            this.comboWinAuthn.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.comboWinAuthn.Location = new System.Drawing.Point(11, 115);
+            this.comboWinAuthn.Name = "comboWinAuthn";
+            this.comboWinAuthn.Size = new System.Drawing.Size(169, 21);
+            this.comboWinAuthn.TabIndex = 14;
+            this.comboWinAuthn.SelectedIndexChanged += new System.EventHandler(this.comboWinAuthn_SelectedIndexChanged);
+            // 
+            // lblwarning
+            // 
+            this.lblwarning.AutoSize = true;
+            this.lblwarning.ForeColor = System.Drawing.Color.Maroon;
+            this.lblwarning.Location = new System.Drawing.Point(12, 30);
+            this.lblwarning.Name = "lblwarning";
+            this.lblwarning.Size = new System.Drawing.Size(24, 13);
+            this.lblwarning.TabIndex = 15;
+            this.lblwarning.Text = "test";
             // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 177);
-            this.Controls.Add(this.label5);
+            this.ClientSize = new System.Drawing.Size(291, 199);
+            this.Controls.Add(this.lblwarning);
+            this.Controls.Add(this.comboWinAuthn);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtpassword);
+            this.Controls.Add(this.txtuserid);
             this.Controls.Add(this.comboSQLInst);
-            this.Controls.Add(this.btndimiss);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtconntime);
-            this.Controls.Add(this.btnshowdetails);
             this.Controls.Add(this.btnconfirm);
-            this.Controls.Add(this.combodatasrc);
             this.Controls.Add(this.rcustom);
             this.Controls.Add(this.rdefault);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtinteg);
-            this.Controls.Add(this.txtinit);
             this.Name = "ConfigForm";
             this.Text = "Configure The Connection";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigForm_FormClosing);
@@ -215,20 +207,19 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtinit;
-        private System.Windows.Forms.TextBox txtinteg;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rdefault;
         private System.Windows.Forms.RadioButton rcustom;
-        private System.Windows.Forms.ComboBox combodatasrc;
         private System.Windows.Forms.Button btnconfirm;
-        private System.Windows.Forms.Button btnshowdetails;
         private System.Windows.Forms.TextBox txtconntime;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btndimiss;
         private System.Windows.Forms.ComboBox comboSQLInst;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtuserid;
+        private System.Windows.Forms.TextBox txtpassword;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox comboWinAuthn;
+        private System.Windows.Forms.Label lblwarning;
     }
 }

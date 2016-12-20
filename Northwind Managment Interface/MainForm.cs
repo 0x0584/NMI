@@ -33,8 +33,7 @@ namespace Northwind
         SqlDataAdapter adapter;
         #endregion
 
-        string connstring = "data source = (local); initial catalog = Northwind;" +
-            "integrated security = yes";
+        string connstring = "data source = (local); initial catalog = Northwind; integrated security = yes";
         string query;
 
         #region Verification variables
@@ -765,7 +764,6 @@ namespace Northwind
 
             config.Dispose();
             config.Close();
-
         }
 
         private void btnfillform_Click(object sender, EventArgs e)

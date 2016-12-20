@@ -14,15 +14,23 @@ namespace Northwind
 {
     public partial class ConfigForm : Form
     {
-        public ConfigForm() { InitializeComponent(); }
 
-        //
         string dataSource, initialCatalog, integratedSecurity;
         int connectionTimeout;
-        //
+        string instance, userid, password;
 
-        bool isfullform;
+        bool isfirstrun = true;
+        bool requireuserinfo = false;
 
+        public ConfigForm()
+        {
+            InitializeComponent();
+            this.Height = 71;
+            dataSource = initialCatalog = integratedSecurity = instance = userid = password = string.Empty;
+            connectionTimeout = 0;
+            lblwarning.Text = string.Empty;
+            txtuserid.Text = txtpassword.Text = "#";
+        }
 
         #region Propre methods
         private void LoadInstances(ComboBox c)
@@ -42,14 +50,23 @@ namespace Northwind
                 }
 
                 try { c.Text = c.Items[0].ToString(); }
-                catch {    }
+                catch
+                {
+                    MessageBox.Show("No SQL Server Instances was found!", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1, 0, false);
+                }
             }
 
         }
+
+        // i don't know why i create this function but it looks 
+        // like i was thinking of creating another managment studio! 
+        /* 
         private void GetDatabaseList(ComboBox c)
         {
             // TODO: get databases from an instance
-            //
+            // 
 
             List<string> list = new List<string>();
 
@@ -71,11 +88,17 @@ namespace Northwind
             }
 
             foreach (var item in list) c.Items.Add(item);
-            c.Text = combodatasrc.Items[0].ToString();
+            c.Text = c.Items[0].ToString();
         }
+        */
         public void ConnectionSetup(SqlConnection connection)
         {
-            connection.ConnectionString = string.Format("data source = {0}; initial catalog = {1}; integrated security = {2}",
+            string str;
+
+            if (userid == "#" && password == "#") str = "";
+            else str = string.Format("uid={0};pwd={1};", userid, password);
+
+            connection.ConnectionString = string.Format("server={0};" + str + " database={1}; integrated security = {2}",
                 dataSource, initialCatalog, integratedSecurity);
         }
         #endregion
@@ -83,108 +106,127 @@ namespace Northwind
         #region Form methods
         private void ConfigForm_Load(object sender, EventArgs e)
         {
-            dataSource = initialCatalog = integratedSecurity = string.Empty;
-
             #region Initialisation
-            txtinit.Text = "(local)";
-            txtinteg.Text = "YES";
             txtconntime.Text = "0";
-           
-            txtinit.Enabled = txtconntime.Enabled = txtinteg.Enabled = false;
-
-            rdefault.Checked = true; // default by default XD
+            txtconntime.Enabled = false;
+            rdefault.Checked = true; // default is checked by default 
             #endregion
 
-            MessageBox.Show("Loading local SQL Server instances\nThis may take a while");
+            // TODO: i have to figure out how to show an information 
+            //       window while the instances are loading...
+            //
 
-            try
-            {
-                // get local instances
-                LoadInstances(comboSQLInst);
-                // get databases on (local)
-                GetDatabaseList(combodatasrc);
-            }
+            //Message msg = new Message("Loading local SQL Server instances\nThis may take a while");
+            //msg.ShowDialog();
+            
+            MessageBox.Show("Loading the instances may take a while...", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1, 0, false);
+
+            try { LoadInstances(comboSQLInst);   /* get local instances */ }
             catch { MessageBox.Show("Can't fitch"); }
-
-            // combodatasrc.Items.Add("Northwind");
 
             dataSource = initialCatalog = integratedSecurity = string.Empty;
             connectionTimeout = 0;
 
-            isfullform = true;
-
-            btnshowdetails.Hide(); // [+]        
+            isfirstrun = false;
         }
 
         private void ConfigForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // TODO: i don't know what to do...
+            //
+
+            /*
             if (e.CloseReason == CloseReason.UserClosing) // User clicked 'X' button
             {
                 if (dataSource != string.Empty || initialCatalog != string.Empty
                     || integratedSecurity != string.Empty || txtconntime.Text != string.Empty)
                     e.Cancel = true; // Disable Form closing
             }
+             */
         }
         #endregion
 
         #region Radiobuttons
         private void rcustom_CheckedChanged(object sender, EventArgs e)
         {
-            txtinit.Text = txtinteg.Text = string.Empty;
-            txtconntime.Text = "0";
-            //
-            txtinit.Enabled = txtconntime.Enabled = txtinteg.Enabled = true;
-
-            btnshowdetails.Show(); // [-]
+            comboWinAuthn.Enabled = true;
+            txtconntime.Enabled = true;
         }
 
         private void rdefault_CheckedChanged(object sender, EventArgs e)
         {
-            txtinit.Text = "(local)";
-            txtinteg.Text = "YES";
-            txtconntime.Text = "0";
+            comboWinAuthn.Text = comboWinAuthn.Items[0].ToString();
+            txtconntime.Text = Convert.ToString(15);
+            comboWinAuthn.Enabled = false;
+            txtconntime.Enabled = false;
 
-            txtinit.Enabled = txtconntime.Enabled = txtinteg.Enabled = false;
-
-            btnshowdetails.Hide(); // [+]
+            this.Height = 169;
         }
         #endregion
 
         #region Buttons: Confirm, ShowDetails and Dimiss
         private void btnconfirm_Click(object sender, EventArgs e)
         {
+            bool valide = true;
             // TODO: pass the connection string to the `MainFrom`
             // done!
 
-            dataSource = txtinit.Text;
-            initialCatalog = combodatasrc.Text;
-            integratedSecurity = txtinteg.Text;
+            dataSource = comboSQLInst.Text;
+            initialCatalog = "Northwind";
+            integratedSecurity = comboWinAuthn.Text;
             connectionTimeout = int.Parse(txtconntime.Text);
+            userid = txtuserid.Text;
+            password = txtpassword.Text;
 
-            if (dataSource != string.Empty
-                || initialCatalog != string.Empty
-                || integratedSecurity != string.Empty
-                || txtconntime.Text != string.Empty)
+            if (txtconntime.Text.Trim().CompareTo(string.Empty) != 0 && connectionTimeout > 0)
             {
+                if (requireuserinfo) // SSPI is NO
+                {
+                    if (userid.Trim().CompareTo(string.Empty) == 0 || password.Trim().CompareTo(string.Empty) == 0)
+                    {
+                        valide = false;
+                        lblwarning.Text = "the username (and/or the password) is empty.";
+                    }
+                }
+                // Solved!
 
                 MessageBox.Show(dataSource + " " + initialCatalog + " " + integratedSecurity + " " + txtconntime.Text);
-                // Solved!
-                this.Hide();
+                if (valide) this.Hide();
             }
-            else MessageBox.Show("fill all the fields or leave it to default");
-        }
-
-        private void btnshowdetails_Click(object sender, EventArgs e)
-        {
-            if (isfullform) { this.Height = 270; btnshowdetails.Text = "-"; isfullform = false; }
-            else { this.Height = 218; btnshowdetails.Text = "+"; isfullform = true; }
-        }
-
-        private void btndimiss_Click(object sender, EventArgs e)
-        {
-            this.Hide();
         }
         #endregion
+
+        private void comboSQLInst_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if (comboSQLInst.Items[0] == null)
+            //    MessageBox.Show("No SQL Server instances was found!\n(Check if the MSSQL Server Service is running)");
+            //
+
+            if (!isfirstrun) this.Height = 169;
+
+        }
+
+        private void comboWinAuthn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!isfirstrun)
+            {
+                if (comboWinAuthn.Text == comboWinAuthn.Items[0].ToString())
+                {
+                    this.Height = 169;
+                    requireuserinfo = false;
+                }
+                else if (comboWinAuthn.Text == comboWinAuthn.Items[1].ToString())
+                {
+                    this.Height = 226;
+                    txtpassword.Text = "";
+                    txtuserid.Text = "";
+                    requireuserinfo = true;
+                }
+
+            }
+        }
 
         //END OF CLASS
     }
