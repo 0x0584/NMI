@@ -166,7 +166,7 @@ namespace Northwind
         }
         #endregion
 
-        #region Buttons: Confirm, ShowDetails and Dimiss
+        
         private void btnconfirm_Click(object sender, EventArgs e)
         {
             bool valide = true;
@@ -196,7 +196,7 @@ namespace Northwind
                 if (valide) this.Hide();
             }
         }
-        #endregion
+       
 
         private void comboSQLInst_SelectedIndexChanged(object sender, EventArgs e)
         {

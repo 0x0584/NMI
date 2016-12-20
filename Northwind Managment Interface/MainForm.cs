@@ -756,7 +756,8 @@ namespace Northwind
                 try { connection.Open(); }
                 catch
                 {
-                    MessageBox.Show("Make sure to fill the informations correctly, the settings will be reverted to the last stalbe state");
+                    MessageBox.Show("Make sure to fill the informations correctly.\nthe settings will be reverted to the last stalbe state"
+                   , "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, 0, false);
                     connection.ConnectionString = backup;
                     connection.Open();
                 }
@@ -770,7 +771,7 @@ namespace Northwind
         {
             FillForm fform = new FillForm();
 
-            fform.SetupConnection(connection);
+            fform.GetTableInformation(connection, currenttable);
 
             fform.ShowDialog();
             fform.Dispose();

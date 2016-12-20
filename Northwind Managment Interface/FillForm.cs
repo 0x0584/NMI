@@ -37,14 +37,13 @@ namespace Northwind
         List<Label> listlabel = new List<Label>();
         List<TextBox> listtextbox = new List<TextBox>();
 
-        SqlConnection con;
+       
 
         public FillForm() { InitializeComponent(); }
 
         private void FillForm_Load(object sender, EventArgs e)
         {
-            FillObjectSetup(fobject, listtextbox, listlabel);
-
+           
             // TODO: get the number of columns
             // $ 
         }
@@ -150,15 +149,30 @@ namespace Northwind
 
         #endregion
 
-        public void SetupConnection(SqlConnection input)
+        public void GetTableInformation(SqlConnection input, string table)
         {
+            lbltable.Text = table;
+
+            FillObjectSetup(fobject, listtextbox, listlabel);
 
             if (input.State == ConnectionState.Closed) input.Open();
 
-            string query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.Column WHERE TABLE_NAME = 'Orders'";
-            SqlCommand cmd = new SqlCommand(query, con);
+            //
+            string query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            SqlCommand cmd = new SqlCommand(query, input);
             int colnumber = (int) cmd.ExecuteScalar();
+            //
 
+            //
+            query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            cmd.CommandText = query;
+            SqlDataReader reader = cmd.ExecuteReader();
+            //
+
+            int i = 0;
+            while (reader.Read()) fobject[i++].Label.Text = (string) reader[0];
+
+            // put them out!
             HandleFillObject(fobject, colnumber, FillObject.ObjectStatus.SHOWN);
         }
 
