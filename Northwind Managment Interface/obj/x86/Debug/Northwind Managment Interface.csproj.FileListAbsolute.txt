@@ -15,7 +15,6 @@ C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.Synchronization.Data.SqlServerCe.dll
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\fr\Microsoft.Synchronization.Data.resources.dll
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
-C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind Managment Interface.csprojFakesResolveAssemblyReference.cache
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.FillForm.resources
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.MainForm.resources
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.ConfigForm.resources

@@ -9,10 +9,6 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.Sql; // SqlDataSourceEnumerator, 
 using System.Data.SqlTypes;
-//
-//using EnumerateSQLServers;
-//using Moletrator.SQLDocumentor;
-//using Microsoft.SqlServer.Server;
 
 namespace Northwind
 {
@@ -21,8 +17,14 @@ namespace Northwind
         public MainForm()
         {
             InitializeComponent();
-        }
+            
+            isonline = true;
+            ronline.Checked = true;
+            ronline.Enabled = false;
+            
 
+            tbdesc.Text = tbname.Text = string.Empty;
+        }
 
         DataSet Northwind;
 
@@ -93,13 +95,7 @@ namespace Northwind
 
             connection.Open();
 
-            // init 
-            isonline = true;
-            ronline.Checked = true;
-            ronline.Enabled = false;
-            // tini
 
-            tbdesc.Text = tbname.Text = string.Empty;
             //
 
             SetupComboBox(combotables);
@@ -133,7 +129,7 @@ namespace Northwind
                     try
                     {
                         command = new SqlCommand(query, connection);
-                        reader = command.ExecuteReader();
+                        reader = command.ExecuteReader(); //BUG HERE!
 
                         // TODO: a datagridview should be here!
                         // done!
@@ -176,6 +172,14 @@ namespace Northwind
 
         private void SetupComboBox(ComboBox source)
         {
+            //query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" +
+            //    "WHERE TABLE_NAME NOT LIKE '%_tombstone'" +
+            //    "AND TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'sysdiagrams'" + 
+            //    "ORDER BY TABLE_NAME";
+
+            //command = new SqlCommand(query, connection);
+            //reader = command.ExecuteReader();
+            //while (reader.Read()) source.Items.Add(reader[0]);
             source.Items.Add("Categories");
             source.Items.Add("Customers");
             source.Items.Add("Employees");
@@ -186,7 +190,7 @@ namespace Northwind
             source.Items.Add("Shippers");
             source.Items.Add("Suppliers");
             source.Items.Add("Territories");
-            combotables.Text = currenttable = combotables.Items[0].ToString();
+            source.Text = currenttable = source.Items[0].ToString();
         }
 
         private void combotables_SelectedIndexChanged(object sender, EventArgs e)
@@ -586,7 +590,7 @@ namespace Northwind
                     dr[1] = tbdesc.Text;
                     Northwind.Tables[currenttable].Rows.Add(dr);
 
-                    isvalidated = true;
+                    isvalidated = true;// everythings is alright!
                 }
                 catch { MessageBox.Show("error while load offline"); }
             }
@@ -610,14 +614,11 @@ namespace Northwind
                 {
                     try
                     {
-
-
-                        //CategoryName, Description
                         command = new SqlCommand(query, connection);
 
                         reader = command.ExecuteReader();
                         reader.Read();
-                        //Description
+                        
                         tbname.Text = reader["CategoryName"].ToString();
                         tbdesc.Text = reader["Description"].ToString();
                     }
@@ -769,11 +770,27 @@ namespace Northwind
 
         private void btnfillform_Click(object sender, EventArgs e)
         {
-            FillForm fform = new FillForm();
+            FillForm fform = new FillForm(connection);
 
             fform.GetTableInformation(connection, currenttable);
 
             fform.ShowDialog();
+
+            // TODO: Recieve information from the `FillForm`
+            // done!
+            
+            // TODO: Add, Update, Delete
+            //       $       
+
+            if (isonline)
+            {
+                fform.SendToServer(connection, currenttable);
+            }
+            else
+            {
+                fform.SendToDataSet(Northwind, currenttable);
+            }
+
             fform.Dispose();
 
 

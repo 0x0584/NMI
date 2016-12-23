@@ -119,14 +119,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Northwind.exe" size="800256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Northwind.exe" size="801792">
       <assemblyIdentity name="Northwind" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>hUf4qId8GXNXL+fcbnV2NJka7Lw=</dsig:DigestValue>
+        <dsig:DigestValue>HcCgaBDMOI0kBrJWwbnhJVqqc9c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
