@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+
 namespace Northwind
 {
     public partial class FillForm : Form
@@ -16,6 +17,9 @@ namespace Northwind
          */
         struct FillObject
         {
+            // TODO: add also comboboxes for foreign key
+            // 
+
             /* This routine is to indicate the status of the current element. it vary between
              * two states, SHOWN (The object is displayed on the screen) and HIDDEN (The object 
              * is *not* displayed on the screen).
@@ -44,31 +48,45 @@ namespace Northwind
 
         bool[] isprimary, isforiegn;
 
+        bool validated = false;
+
         int usedobjects;
 
         public FillForm() { InitializeComponent(); }
-        public FillForm(SqlConnection connection)
+        public FillForm(SqlConnection connection, string table)
         {
             InitializeComponent();
 
-            int ntables, ncolumns;
+            lbltable.Text = table;
 
-            #region (# tables && # columns in a table)
-            string query = "SELECT Count(TABLE_NAME) FROM INFORMATION_SCHEMA.TABLES " +
-                "WHERE TABLE_NAME NOT LIKE '%_tombstone'" +
-                "AND TABLE_TYPE = 'BASE TABLE'" +
-                "AND TABLE_NAME <> 'sysdiagrams'";
-            SqlCommand command = new SqlCommand(query, connection);
-            ntables = ncolumns = (int)command.ExecuteScalar();
+            if (connection.State == ConnectionState.Closed) connection.Open();
+
+            #region set `usedobjects` to be # of columns in `table`
+            string query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            usedobjects = (int)cmd.ExecuteScalar();
             #endregion
 
-            fobject = new FillObject[ntables];
+            fobject = new FillObject[usedobjects];
+            isprimary = new bool[usedobjects];
+            isforiegn = new bool[usedobjects];
+
+            InitObjectSetup(fobject, listtextbox, listlabel);
+
+            #region get the name of all columns
+            int i = 0;
+            query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            cmd.CommandText = query;
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read()) fobject[i++].Label.Text = (string)reader[0];
+            #endregion
+
+            // put them out!
+            HandleFillObject(fobject, usedobjects, FillObject.ObjectStatus.SHOWN);
 
             // TODO: get the number of columns
-            // 
+            // done.
 
-            isprimary = new bool[ncolumns];
-            isforiegn = new bool[ncolumns];
         }
 
         private void FillForm_Load(object sender, EventArgs e)
@@ -136,7 +154,7 @@ namespace Northwind
                 item.Hide();
             }
         }
-        private void FillObjectSetup(FillObject[] objectsrc, List<TextBox> listtextboxsrc, List<Label> listlabelsrc)
+        private void InitObjectSetup(FillObject[] objectsrc, List<TextBox> listtextboxsrc, List<Label> listlabelsrc)
         {
             ListTextBoxSetup(listtextboxsrc);
             ListLabelSetup(listlabelsrc);
@@ -185,36 +203,7 @@ namespace Northwind
                 }
             }
         }
-
         #endregion
-
-        internal void GetTableInformation(SqlConnection input, string table)
-        {
-            int colnumber;
-
-            lbltable.Text = table;
-
-            FillObjectSetup(fobject, listtextbox, listlabel);
-
-            if (input.State == ConnectionState.Closed) input.Open();
-
-            #region The number of columns
-            string query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
-            SqlCommand cmd = new SqlCommand(query, input);
-            colnumber = usedobjects = (int)cmd.ExecuteScalar();
-            #endregion
-
-            #region The name of all columns
-            int i = 0;
-            query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
-            cmd.CommandText = query;
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read()) fobject[i++].Label.Text = (string)reader[0];
-            #endregion
-
-            // put them out!
-            HandleFillObject(fobject, colnumber, FillObject.ObjectStatus.SHOWN);
-        }
 
         private void btndimiss_Click(object sender, EventArgs e)
         {
@@ -224,78 +213,85 @@ namespace Northwind
         private void btnconfirm_Click(object sender, EventArgs e)
         {
             // Just wait, you'll get better soon!
+            
+            validated = true;
             this.Hide();
         }
 
         internal void SendToServer(SqlConnection connection, string table)
         {
-            #region Insertion query
-            string query = "INSERT INTO [" + table + " ] VALUES(" + fobject[0].Textbox.Text;
-
-            // the 0th item is used above, so we'll start counting from 1
-            for (int i = 1; i < usedobjects; i++)
+            if (validated)
             {
-                string str;
-                FillObject temp = fobject[i];
+                #region Prepare the insertion query
+                // TODO: after determining the columns types
+                //       do just normal-loop instead of loop and 1/2
+                // 
 
-                // TODO: Determine the whether the values are correct or not
-                //
+                string query = "INSERT INTO [" + table + " ] VALUES(" + fobject[0].Textbox.Text;
 
-                if (temp.Textbox.Text.CompareTo(string.Empty) == 0)
+                // the 0th item is used above, so we'll start counting from 1
+                for (int i = 1; i < usedobjects; i++)
                 {
-                    // insert NULL whether the user did not fill the textbox with a value
-                    
-                    str = temp.Textbox.Text = "NULL";  
-                    query += "," + str;
+                    string str;
+                    FillObject temp = fobject[i];
+
+                    // TODO: Determine the whether the values are correct or not
+                    //
+
+                    if (temp.Textbox.Text.CompareTo(string.Empty) == 0)
+                    {
+                        // insert NULL whether the user did not fill the textbox with a value
+                        str = "NULL";
+                        query += "," + str; // ", NULL"
+                    }
+                    else if (temp.Isstring) // <----[HERE]
+                    {
+                        // put the text value of the textbox between `'<something>'` (single quotes) 
+                        // in order to add it to the query
+                        str = ",'" + temp.Textbox.Text + "'";
+                        query += str;
+                    }
+                    else
+                    {
+                        // decimal values don't need anything to be added.
+                        // Cheers :)
+                        str = "," + temp.Textbox.Text;
+                        query += str;
+                    }
                 }
-                else if (temp.Isstring)
-                {
-                    // put the text value of the textbox between `'<something>'` (single quotes) 
-                    // in order to add it to the query
-                    str = ",'" + temp.Textbox.Text + "'";
-                    query += str;
-                }
-                else 
-                {
-                    // decimal values don't need anything to be added.
-                    // Cheers :)
-                    str = "," + temp.Textbox.Text;
-                    query += str;
-                }
+
+                query += ")";
+                #endregion
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                try { cmd.ExecuteNonQuery(); }
+                catch (SqlException e) { MessageBox.Show(e.ToString()); }
 
             }
-
-            query += ")";
-            #endregion
-
-            SqlCommand cmd = new SqlCommand(query, connection);
-
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch (SqlException e) { MessageBox.Show(e.ToString()); }
-
         }
 
         internal void SendToDataSet(DataSet dataset, string table)
         {
-            try
+            if (validated)
             {
-                DataRow datarow = dataset.Tables[table].NewRow();
+                try
+                {
+                    DataRow datarow = dataset.Tables[table].NewRow();
 
-                for (int i = 0; i < usedobjects; ++i)
-                    datarow[i] = fobject[i].Textbox.Text;
+                    for (int i = 0; i < usedobjects; ++i)
+                        datarow[i] = fobject[i].Textbox.Text;
 
-                dataset.Tables[table].Rows.Add(datarow);
+                    dataset.Tables[table].Rows.Add(datarow);
+                }
+                catch (SqlException e) { MessageBox.Show(e.ToString()); }
+
+                // void foo(string str) { str = "foo"; } 
+                // string s = "FOO";
+                // foo(s);
+                // 
+                // str?
             }
-            catch (SqlException e) { MessageBox.Show(e.ToString()); }
-
-            // void foo(string str) { str = "foo"; } 
-            // string s = "FOO";
-            // foo(s);
-            // 
-            // str?
         }
     }
 }

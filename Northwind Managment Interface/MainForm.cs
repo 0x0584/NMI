@@ -770,9 +770,7 @@ namespace Northwind
 
         private void btnfillform_Click(object sender, EventArgs e)
         {
-            FillForm fform = new FillForm(connection);
-
-            fform.GetTableInformation(connection, currenttable);
+            FillForm fform = new FillForm(connection, currenttable);
 
             fform.ShowDialog();
 
@@ -803,6 +801,7 @@ namespace Northwind
             // i really don't remember what i was trying to do when
             // if first think of this... 
             // UPDATE: this button is to confirm changes made while offline-mode
+            // this is basically just an update to the `reader` 
         }
 
         private void btntest_Click(object sender, EventArgs e)
