@@ -79,6 +79,7 @@ namespace Northwind
             cmd.CommandText = query;
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) fobject[i++].Label.Text = (string)reader[0];
+            reader.Close();
             #endregion
 
             // put them out!
