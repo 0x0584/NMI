@@ -60,8 +60,8 @@ namespace Northwind
 
         }
 
-        // i don't know why i create this function but it looks 
-        // like i was thinking of creating another managment studio! 
+        // index don't know why index create this function but it looks 
+        // like index was thinking of creating another managment studio! 
         /* 
         private void GetDatabaseList(ComboBox c)
         {
@@ -75,13 +75,13 @@ namespace Northwind
             using (SqlConnection con = new SqlConnection(conString))
             {
                 con.Open();
-                string query = "SELECT name FROM sys.databases" +
+                string insertquery = "SELECT name FROM sys.databases" +
                     " WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb')" +
                     " AND name NOT LIKE  'ReportServer%'";
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand(insertquery, con))
                 {
-                    using (IDataReader dr = cmd.ExecuteReader()) { while (dr.Read()) list.Add(dr[0].ToString()); }
+                    using (IDataReader dr = command.ExecuteReader()) { while (dr.Read()) list.Add(dr[0].ToString()); }
                 }
 
                 con.Close();
@@ -112,7 +112,7 @@ namespace Northwind
             rdefault.Checked = true; // default is checked by default 
             #endregion
 
-            // TODO: i have to figure out how to show an information 
+            // TODO: index have to figure out how to show an information 
             //       window while the instances are loading...
             //
 
@@ -134,7 +134,7 @@ namespace Northwind
 
         private void ConfigForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // TODO: i don't know what to do...
+            // TODO: index don't know what to do...
             //
 
             /*

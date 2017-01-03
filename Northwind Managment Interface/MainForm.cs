@@ -128,6 +128,8 @@ namespace Northwind
                 {
                     try
                     {
+                        // detect the error
+                        // 
                         command = new SqlCommand(query, connection);
                         reader = command.ExecuteReader(); //BUG HERE!
 
@@ -172,12 +174,12 @@ namespace Northwind
 
         private void SetupComboBox(ComboBox source)
         {
-            //query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" +
+            //insertquery = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" +
             //    "WHERE TABLE_NAME NOT LIKE '%_tombstone'" +
             //    "AND TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'sysdiagrams'" + 
             //    "ORDER BY TABLE_NAME";
 
-            //command = new SqlCommand(query, connection);
+            //command = new SqlCommand(insertquery, connection);
             //reader = command.ExecuteReader();
             //while (reader.Read()) source.Items.Add(reader[0]);
             source.Items.Add("Categories");
@@ -303,8 +305,8 @@ namespace Northwind
             #endregion
 
             //DataGridViewRow r = new DataGridViewRow();
-            //int i = 0;
-            //foreach (var item in reader) r.Cells[++i].Value = item;
+            //int index = 0;
+            //foreach (var item in reader) r.Cells[++index].Value = item;
 
             //while (reader.Read()) source.Rows.Add(r);
         }
@@ -580,7 +582,7 @@ namespace Northwind
             }
             else
             {
-                // (this is a bug, i don't understand why the datarow is not working)
+                // (this is a bug, index don't understand why the datarow is not working)
                 // TODO: this problem shall be solved as soon as possible.
                 // 
                 try
@@ -668,7 +670,7 @@ namespace Northwind
                         //req = "UPDATE Products SET ProductName = @prodname, UnitsInStock = @unit " +
                         //    "WHERE ProductID = @prodid";
 
-                        //for (int i = 0; i < listp.Count; i++) command.Parameters.Add(listp[i]);
+                        //for (int index = 0; index < listp.Count; index++) command.Parameters.Add(listp[index]);
 
                         #endregion
 
@@ -732,9 +734,9 @@ namespace Northwind
             // this is a temporary button
             // UPDATE: it looks like it's effecient for UX
 
-            /* dedicated to all the feelings i have to programming:
+            /* dedicated to all the feelings index have to programming:
              * 
-             * what i really love about programming is that it gives you the ability to control
+             * what index really love about programming is that it gives you the ability to control
              * a rang of low-level details. This is, for me at least, the ultimate power!
              */
 
@@ -798,7 +800,7 @@ namespace Northwind
 
         private void btnsend_Click(object sender, EventArgs e)
         {
-            // i really don't remember what i was trying to do when
+            // index really don't remember what index was trying to do when
             // if first think of this... 
             // UPDATE: this button is to confirm changes made while offline-mode
             // this is basically just an update to the `reader` 
