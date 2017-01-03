@@ -74,7 +74,7 @@ namespace Northwind
         {
             InitializeComponent();
             lbltable.Text = table;
-         
+
             // TODO: what is CommandBehavior any way?
             //
             SqlCommand command = new SqlCommand();
@@ -86,9 +86,8 @@ namespace Northwind
             if (connection.State == ConnectionState.Closed) connection.Open();
 
             #region set `usedobjects` to be # of columns in `table`
-            query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS" + 
-                    "WHERE TABLE_NAME = '" + table + "'";
-            command.CommandText = query; 
+            query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            command.CommandText = query;
 
             usedobjects = (int)command.ExecuteScalar();
             #endregion
@@ -98,25 +97,15 @@ namespace Northwind
             isforiegn = new bool[usedobjects];
 
             // initilise all the objects
-            InitObjectSetup(fobject, listtextbox, listlabel);
+            InitFillObject(fobject, listtextbox, listlabel);
 
             #region get the name of all columns
 
-            query = "SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE " +
-                    "FROM INFORMATION_SCHEMA.COLUMNS" +
-                    "WHERE TABLE_NAME = '" + table + "'";
+            query = "SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+
             command.CommandText = query;
 
-            try
-            {
-
-                reader = command.ExecuteReader(); // here
-            }
-            catch (SqlException e)
-            {
-
-                MessageBox.Show(e.ToString());
-            }
+            reader = command.ExecuteReader(); // here
 
             // the reader still empty!! WHAT THE HECK
             while (reader.Read())
@@ -134,18 +123,32 @@ namespace Northwind
                 fobject[index].Label.Text = colname;
                 isprimary[index] = reader["IS_NULLABLE"].ToString().Equals("YES") ? true : false;
 
-                // all the objects are considered as decimals by default. 
+                fobject[index].IsString = fobject[index].IsDateTime = false;
+                fobject[index].IsImage = fobject[index].IsDecimal = false;
+
+                // decimal type
                 for (i = 0; i < dtype.Length; ++i)
                     // if `coltype` equals any of the decimal types (dtype)
                     if (!this.fobject[index].IsDecimal) // (is not a decimal)
+                    {
+                        var temp = this.fobject[index].IsDecimal;
                         this.fobject[index].IsDecimal = coltype.Equals(dtype[i]) ? true : false;
 
-                this.fobject[index].IsDateTime = coltype.Equals("datetime") ? true : false;
+                        MessageBox.Show("in:" + string.Format("{0}\n", temp) + "out:" + this.fobject[index].IsDecimal.ToString());
 
+                    }
+
+                // string type
                 for (i = 0; i < stype.Length; ++i)
                     // if `coltype` equals any of the string types (stype)
                     if (!this.fobject[index].IsString) // (is not a string)
                         this.fobject[index].IsString = coltype.Equals(stype[i]) ? true : false;
+                
+                // image type
+                this.fobject[index].IsImage = coltype.Equals("image") ? true : false;
+                // datetime type
+                this.fobject[index].IsDateTime = coltype.Equals("datetime") ? true : false;
+
                 index++;
             }
 
@@ -165,7 +168,7 @@ namespace Northwind
             // nothing else matters..
         }
 
-        #region Setup a `FillObject` array (Using both the list of textboxes and labels)
+        #region Init a `FillObject` array (Using both the list of textboxes and labels)
         private void ListLabelSetup(List<Label> source)
         {
             #region Add items to `listlable`
@@ -225,7 +228,7 @@ namespace Northwind
                 item.Hide();
             }
         }
-        private void InitObjectSetup(FillObject[] objectsrc, List<TextBox> listtextboxsrc, List<Label> listlabelsrc)
+        private void InitFillObject(FillObject[] objectsrc, List<TextBox> listtextboxsrc, List<Label> listlabelsrc)
         {
             ListTextBoxSetup(listtextboxsrc);
             ListLabelSetup(listlabelsrc);
@@ -236,8 +239,6 @@ namespace Northwind
                 //    [X] here!
                 //     |
                 //     v
-                objectsrc[i].IsDecimal = true; // all fields are decimals  
-                objectsrc[i].IsString = objectsrc[i].IsDateTime = objectsrc[i].IsImage = false;
 
                 #region Setup textboxes
                 objectsrc[i].Textbox = listtextbox[i];
@@ -249,7 +250,7 @@ namespace Northwind
                 // TODO: find a way to determine the primary keys
                 //       in order to set their color into red;
                 // done.
-                if (isprimary[i]) objectsrc[i].Label.ForeColor = System.Drawing.Color.Maroon;
+                //if (isprimary[i]) objectsrc[i].Label.ForeColor = System.Drawing.Color.Maroon;
 
                 #endregion
 
