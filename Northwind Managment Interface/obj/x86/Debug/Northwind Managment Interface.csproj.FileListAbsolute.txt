@@ -20,3 +20,18 @@ C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.ConfigForm.resources
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.LoginForm.resources
 C:\Users\mr\Documents\Visual Studio 2010\Projects\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.Message.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.exe.config
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.exe
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.pdb
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind Managment Interface.csprojResolveAssemblyReference.cache
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.FillForm.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.LoginForm.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.MainForm.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.ConfigForm.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.Message.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind.Properties.Resources.resources
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\obj\x86\Debug\Northwind Managment Interface.csproj.GenerateResource.Cache
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.exe
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Northwind.pdb
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+C:\Users\Anas Rchid\Documents\Northwind Managment Interface\Northwind Managment Interface\bin\Debug\fr\Microsoft.Synchronization.Data.resources.dll
