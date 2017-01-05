@@ -21962,7 +21962,7 @@ namespace Northwind {
                         return ((string)(this[this.tableAlphabetical_list_of_products.QuantityPerUnitColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'QuantityPerUnit\' in table \'Alphabetical list of products\' i" +
+                        throw new global::System.Data.StrongTypingException("The value for column \'QuantityPerUnit\' in table \'Alphabetical list of products\' index" +
                                 "s DBNull.", e);
                     }
                 }
