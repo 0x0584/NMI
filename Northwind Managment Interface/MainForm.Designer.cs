@@ -247,7 +247,7 @@
             // 
             // btnfillform
             // 
-            this.btnfillform.Location = new System.Drawing.Point(253, 7);
+            this.btnfillform.Location = new System.Drawing.Point(223, 14);
             this.btnfillform.Name = "btnfillform";
             this.btnfillform.Size = new System.Drawing.Size(75, 23);
             this.btnfillform.TabIndex = 18;

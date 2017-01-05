@@ -9,10 +9,6 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.Sql; // SqlDataSourceEnumerator, 
 using System.Data.SqlTypes;
-//
-//using EnumerateSQLServers;
-//using Moletrator.SQLDocumentor;
-//using Microsoft.SqlServer.Server;
 
 namespace Northwind
 {
@@ -21,8 +17,14 @@ namespace Northwind
         public MainForm()
         {
             InitializeComponent();
-        }
+            
+            isonline = true;
+            ronline.Checked = true;
+            ronline.Enabled = false;
+            
 
+            tbdesc.Text = tbname.Text = string.Empty;
+        }
 
         DataSet Northwind;
 
@@ -33,8 +35,7 @@ namespace Northwind
         SqlDataAdapter adapter;
         #endregion
 
-        string connstring = "data source = (local); initial catalog = Northwind;" +
-            "integrated security = yes";
+        string connstring = "data source = (local); initial catalog = Northwind; integrated security = yes";
         string query;
 
         #region Verification variables
@@ -94,13 +95,7 @@ namespace Northwind
 
             connection.Open();
 
-            // init 
-            isonline = true;
-            ronline.Checked = true;
-            ronline.Enabled = false;
-            // tini
 
-            tbdesc.Text = tbname.Text = string.Empty;
             //
 
             SetupComboBox(combotables);
@@ -134,7 +129,7 @@ namespace Northwind
                     try
                     {
                         command = new SqlCommand(query, connection);
-                        reader = command.ExecuteReader();
+                        reader = command.ExecuteReader(); //BUG HERE!
 
                         // TODO: a datagridview should be here!
                         // done!
@@ -177,6 +172,14 @@ namespace Northwind
 
         private void SetupComboBox(ComboBox source)
         {
+            //query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES" +
+            //    "WHERE TABLE_NAME NOT LIKE '%_tombstone'" +
+            //    "AND TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'sysdiagrams'" + 
+            //    "ORDER BY TABLE_NAME";
+
+            //command = new SqlCommand(query, connection);
+            //reader = command.ExecuteReader();
+            //while (reader.Read()) source.Items.Add(reader[0]);
             source.Items.Add("Categories");
             source.Items.Add("Customers");
             source.Items.Add("Employees");
@@ -187,7 +190,7 @@ namespace Northwind
             source.Items.Add("Shippers");
             source.Items.Add("Suppliers");
             source.Items.Add("Territories");
-            combotables.Text = currenttable = combotables.Items[0].ToString();
+            source.Text = currenttable = source.Items[0].ToString();
         }
 
         private void combotables_SelectedIndexChanged(object sender, EventArgs e)
@@ -587,7 +590,7 @@ namespace Northwind
                     dr[1] = tbdesc.Text;
                     Northwind.Tables[currenttable].Rows.Add(dr);
 
-                    isvalidated = true;
+                    isvalidated = true;// everythings is alright!
                 }
                 catch { MessageBox.Show("error while load offline"); }
             }
@@ -611,14 +614,11 @@ namespace Northwind
                 {
                     try
                     {
-
-
-                        //CategoryName, Description
                         command = new SqlCommand(query, connection);
 
                         reader = command.ExecuteReader();
                         reader.Read();
-                        //Description
+                        
                         tbname.Text = reader["CategoryName"].ToString();
                         tbdesc.Text = reader["Description"].ToString();
                     }
@@ -757,7 +757,8 @@ namespace Northwind
                 try { connection.Open(); }
                 catch
                 {
-                    MessageBox.Show("Make sure to fill the informations correctly, the settings will be reverted to the last stalbe state");
+                    MessageBox.Show("Make sure to fill the informations correctly.\nthe settings will be reverted to the last stalbe state"
+                   , "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, 0, false);
                     connection.ConnectionString = backup;
                     connection.Open();
                 }
@@ -765,16 +766,29 @@ namespace Northwind
 
             config.Dispose();
             config.Close();
-
         }
 
         private void btnfillform_Click(object sender, EventArgs e)
         {
-            FillForm fform = new FillForm();
-
-            fform.SetupConnection(connection);
+            FillForm fform = new FillForm(connection, currenttable);
 
             fform.ShowDialog();
+
+            // TODO: Recieve information from the `FillForm`
+            // done!
+            
+            // TODO: Add, Update, Delete
+            //       $       
+
+            if (isonline)
+            {
+                fform.SendToServer(connection, currenttable);
+            }
+            else
+            {
+                fform.SendToDataSet(Northwind, currenttable);
+            }
+
             fform.Dispose();
 
 
@@ -787,6 +801,7 @@ namespace Northwind
             // i really don't remember what i was trying to do when
             // if first think of this... 
             // UPDATE: this button is to confirm changes made while offline-mode
+            // this is basically just an update to the `reader` 
         }
 
         private void btntest_Click(object sender, EventArgs e)
