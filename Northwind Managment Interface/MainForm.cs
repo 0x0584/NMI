@@ -793,7 +793,7 @@ namespace Northwind
 
             fform.Dispose();
 
-
+            RefreshFormView(currenttable);
             //f.Show();
 
         }

@@ -26,47 +26,42 @@ namespace Northwind
              */
             public enum ObjectStatus { SHOWN = 0, HIDDEN = 1 }
 
-            #region indicates the column type
-            // `isstring` is true whether DATA_TYPE of the corsponding column
-            // is: char, nchar, varchar, nvarchar, text or ntext
-            private bool isstring;
-            public bool IsString { get { return isstring; } set { isstring = value; } }
+            // type information
+            private bool isdatetime, isimage, isprimary, isforeign, isnullable,
+                // `isstring` is true whether DATA_TYPE of the corsponding column
+                // is: char, nchar, varchar, nvarchar, text or ntext
+                isstring,
+                // `isdecimal` is true whether DAtA_TYPE of the corsponding column 
+                // is: bit, smallint, int, bigint, real or money
+                isdecimal;
 
-            // `isdecimal` is true whether DAtA_TYPE of the corsponding column 
-            // is: bit, smallint, int, bigint, real or money
-            private bool isdecimal;
-            public bool IsDecimal { get { return isdecimal; } set { isdecimal = !IsString; } }
-
-            // or datetime
-            private bool isdatetime;
-            public bool IsDateTime { get { return isdatetime; } set { isdatetime = value; } }
-
-            // or a picture
-            private bool isimage;
-            public bool IsImage { get { return isimage; } set { isimage = value; } }
-            #endregion
-
-            private TextBox txt;
-            public TextBox Textbox { get { return txt; } set { txt = value; } }
-
-
-
-            private Label label;
-            public Label Label { get { return label; } set { label = value; } }
-
+            // fill object components
             private ObjectStatus status;
-            public ObjectStatus Status { get { return status; } set { status = value; } }
-        };
-        FillObject[] fobject;
-        //
+            private Label label;
+            private TextBox txt;
 
+            #region Propreties
+            // type information
+            public bool IsString { get { return isstring; } set { isstring = value; } }
+            public bool IsDecimal { get { return isdecimal; } set { isdecimal = value; } }
+            public bool IsDateTime { get { return isdatetime; } set { isdatetime = value; } }
+            public bool IsImage { get { return isimage; } set { isimage = value; } }
+            public bool IsNullable { get { return isnullable; } set { isnullable = value; } }
+            public bool IsPrimary { get { return isprimary; } set { isprimary = value; } }
+            public bool IsForeign { get { return isforeign; } set { isforeign = value; } }
+
+            // fill object components
+            public TextBox Textbox { get { return txt; } set { txt = value; } }
+            public Label Label { get { return label; } set { label = value; } }
+            public ObjectStatus Status { get { return status; } set { status = value; } }
+            #endregion
+        };
+
+        FillObject[] fobject;
         List<Label> listlabel = new List<Label>();
         List<TextBox> listtextbox = new List<TextBox>();
 
-        bool[] isprimary, isforiegn;
-
         bool validated = false;
-
         int usedobjects;
 
         public FillForm() { InitializeComponent(); }
@@ -86,80 +81,32 @@ namespace Northwind
             if (connection.State == ConnectionState.Closed) connection.Open();
 
             #region set `usedobjects` to be # of columns in `table`
-            query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS" +
+                " WHERE TABLE_NAME = '" + table + "'";
             command.CommandText = query;
 
             usedobjects = (int)command.ExecuteScalar();
             #endregion
 
-            fobject = new FillObject[usedobjects];
-            isprimary = new bool[usedobjects];
-            isforiegn = new bool[usedobjects];
+            this.fobject = new FillObject[usedobjects];
 
-            // initilise all the objects
-            InitFillObject(fobject, listtextbox, listlabel);
+            // initilize all the objects
+            InitFillObject(this.fobject, this.listtextbox, this.listlabel);
 
-            #region get the name of all columns
+            #region get column proprietes
 
-            query = "SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
+            query = "SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE" +
+                " FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + table + "'";
 
             command.CommandText = query;
 
-            reader = command.ExecuteReader(); // here
-
-            // the reader still empty!! WHAT THE HECK
-            while (reader.Read())
-            {
-                string[] stype = new string[] { "char", "nchar", "varchar", "nvarchar", "text",
-                   "ntext" };
-                string[] dtype = new string[] {  "bit", "smallint", "int", "float", "real", 
-                   "money",};
-                //
-                string colname = (string)reader["COLUMN_NAME"];
-                string coltype = (string)reader["DATA_TYPE"];
-                //
-                int i, index = 0;
-
-                fobject[index].Label.Text = colname;
-                isprimary[index] = reader["IS_NULLABLE"].ToString().Equals("YES") ? true : false;
-
-                fobject[index].IsString = fobject[index].IsDateTime = false;
-                fobject[index].IsImage = fobject[index].IsDecimal = false;
-
-                // decimal type
-                for (i = 0; i < dtype.Length; ++i)
-                    // if `coltype` equals any of the decimal types (dtype)
-                    if (!this.fobject[index].IsDecimal) // (is not a decimal)
-                    {
-                        var temp = this.fobject[index].IsDecimal;
-                        this.fobject[index].IsDecimal = coltype.Equals(dtype[i]) ? true : false;
-
-                        MessageBox.Show("in:" + string.Format("{0}\n", temp) + "out:" + this.fobject[index].IsDecimal.ToString());
-
-                    }
-
-                // string type
-                for (i = 0; i < stype.Length; ++i)
-                    // if `coltype` equals any of the string types (stype)
-                    if (!this.fobject[index].IsString) // (is not a string)
-                        this.fobject[index].IsString = coltype.Equals(stype[i]) ? true : false;
-                
-                // image type
-                this.fobject[index].IsImage = coltype.Equals("image") ? true : false;
-                // datetime type
-                this.fobject[index].IsDateTime = coltype.Equals("datetime") ? true : false;
-
-                index++;
-            }
+            GetSchemaInformation((reader = command.ExecuteReader()), this.fobject);
 
             reader.Close();
             #endregion
 
             // put them out!
             HandleFillObject(fobject, usedobjects, FillObject.ObjectStatus.SHOWN);
-
-            // TODO: get the number of columns
-            // done.
 
         }
 
@@ -168,6 +115,74 @@ namespace Northwind
             // nothing else matters..
         }
 
+        private void GetSchemaInformation(SqlDataReader reader, FillObject[] objectsrc)
+        {
+            // think twice before put an innitialization inside a loop!
+            int index = 0;
+            while (reader.Read())
+            {
+                string[] stype = new string[] { "char", "nchar", "varchar", "nvarchar", "text",
+                   "ntext" }; // string type
+                string[] dtype = new string[] {  "bit", "smallint", "int", "float", "real", 
+                   "money",}; // decimal type
+                //
+                string colname = (string)reader["COLUMN_NAME"];
+                string coltype = (string)reader["DATA_TYPE"];
+                bool isnullable = reader["IS_NULLABLE"].ToString().Equals("YES") ? true : false;
+                bool isdecimal, isstring, isdatetime, isimage;
+                isdecimal = isstring = isdatetime = isimage = false;
+
+
+                #region initialize the object proprietes
+                objectsrc[index].IsString = objectsrc[index].IsDateTime = false;
+                objectsrc[index].IsImage = objectsrc[index].IsDecimal = false;
+
+                objectsrc[index].Label.Text = colname;
+
+                // TODO: use threads instead of the while-loop 
+                //
+
+                // this while loop provides a quick type-checking. 
+                // this is what i've found to solve the problem of 
+                // keep looking for other types while one is true
+                while (!(isdecimal || isstring || isdatetime || isimage))
+                {
+                    // decimal type
+                    for (int i = 0; i < dtype.Length; ++i)
+                        // if `coltype` equals any of the decimal types (dtype)
+                        if (!isdecimal) // (is not a decimal)
+                            isdecimal = coltype.Equals(dtype[i]) ? true : false;
+
+                    if (isdecimal) break;
+
+                    // string type
+                    for (int i = 0; i < stype.Length; ++i)
+                        // if `coltype` equals any of the string types (stype)
+                        if (!isstring) // (is not a string)
+                            isstring = coltype.Equals(stype[i]) ? true : false;
+
+                    if (isstring) break;
+
+                    // image type
+                    if ((isimage = coltype.Equals("image") ? true : false)) break;
+
+                    // datetime type
+                    if ((isdatetime = coltype.Equals("datetime") ? true : false)) break;
+                }
+
+                objectsrc[index].IsString = isstring;
+                objectsrc[index].IsDateTime = isdatetime;
+                objectsrc[index].IsImage = isimage;
+                objectsrc[index].IsDecimal = isdecimal;
+
+                // set the column of non nullable into red 
+                if (!(objectsrc[index].IsNullable = isnullable))
+                    objectsrc[index].Label.ForeColor = System.Drawing.Color.Maroon;
+                #endregion
+
+                ++index;
+            }
+        }
         #region Init a `FillObject` array (Using both the list of textboxes and labels)
         private void ListLabelSetup(List<Label> source)
         {
@@ -194,6 +209,7 @@ namespace Northwind
 
             foreach (var item in source)
             {
+                //item.Text = "foo";
                 item.Text = string.Empty;
                 item.Hide();
             }
@@ -236,10 +252,6 @@ namespace Northwind
 
             for (int i = 0; i < objectsrc.Length; ++i)
             {
-                //    [X] here!
-                //     |
-                //     v
-
                 #region Setup textboxes
                 objectsrc[i].Textbox = listtextbox[i];
                 objectsrc[i].Textbox.Text = string.Empty;
@@ -249,8 +261,10 @@ namespace Northwind
                 objectsrc[i].Label = listlabel[i];
                 // TODO: find a way to determine the primary keys
                 //       in order to set their color into red;
-                // done.
-                //if (isprimary[i]) objectsrc[i].Label.ForeColor = System.Drawing.Color.Maroon;
+                // 
+                //MessageBox.Show(objectsrc[i].IsNullable ? "yyes":"nno");
+                //// is not nullable 
+                //if (objectsrc[i].IsNullable) objectsrc[i].Label.ForeColor = System.Drawing.Color.Maroon;
 
                 #endregion
 
@@ -314,59 +328,65 @@ namespace Northwind
                 // TODO: after determining the columns types
                 //       do just normal-loop instead of loop and 1/2
                 // done.
-
+               
+                for (int i = 0; i < usedobjects; i++)
+                {
+                    if (!this.fobject[i].IsNullable &&
+                        this.fobject[i].Textbox.Text.CompareTo(string.Empty) == 0)
+                         MessageBox.Show("Test"); 
+                }
                 for (int i = 0; i < usedobjects; i++)
                 {
                     string t_str;
+                    FillObject temp_object = this.fobject[i];
 
                     #region if it's the first loop of the for-loop
-                    if (!Convert.ToBoolean(i))
+                    if (i == 0 ? true : false)
                     {
                         // create an insert insertquery to fill all columns exept 
                         // the ID column, which is the first column usually.
 
                         // string temp;
-                        t_str = string.Format("INSERT INTO [{0}]({1}", table, fobject[1].Label.Text);
+                        t_str = string.Format("INSERT INTO [{0}]({1}", table, this.fobject[1].Label.Text);
 
                         // the first item is used above, so we'll start counting from 2
                         for (int j = 2; j < usedobjects; ++j)
-                            t_str += string.Format(", {0}", fobject[j].Textbox.Text);
+                            t_str += string.Format(", {0}", this.fobject[j].Label.Text);
                         // ')' to close column's parentheses 
                         t_str += ")";
 
-                        insertquery = string.Format("{0} VALUES({1}", t_str, table, fobject[1].Textbox.Text);
+                        insertquery = string.Format("{0} VALUES(", t_str);
 
                         continue; // move to the next element in `fobject`
                     }
                     #endregion
                     // temporary variable to hold the  current object
-                    FillObject tobject = fobject[i];
 
-                    if (tobject.Textbox.Text.CompareTo(string.Empty) == 0)
+                    if (temp_object.Textbox.Text.CompareTo(string.Empty) == 0)
                     {
                         // insert NULL whether the user did not fill the textbox with a value
                         t_str = "NULL";
-                        insertquery += "," + t_str; // ", NULL"
                     }
-                    else if (tobject.IsString) // <----[HERE]
+                    else if (temp_object.IsString)
                     {
                         // put the text value of the textbox between single
                         // quotes in order to add it to the insertquery
-                        t_str = ",'" + tobject.Textbox.Text + "'";
-                        insertquery += t_str;
+                        t_str = "'" + temp_object.Textbox.Text + "'";
                     }
                     else
                     {
                         // decimal values don't need anything to be added.
                         // Cheers!
-                        t_str = "," + tobject.Textbox.Text;
-                        insertquery += t_str;
+                        t_str = temp_object.Textbox.Text;
                     }
+
+                    insertquery += string.Format("{0}{1}",i == 1?"":",",t_str);
+
                 }
 
                 // close the value's paretheses
                 insertquery += ")";
-                // MessageBox.Show(insertquery);
+                MessageBox.Show(insertquery);
                 #endregion
 
                 SqlCommand cmd = new SqlCommand(insertquery, connection);
@@ -374,6 +394,8 @@ namespace Northwind
                 try { cmd.ExecuteNonQuery(); }
                 catch (SqlException e) { MessageBox.Show(e.ToString()); }
 
+            Error:
+                return;
             }
         }
 
